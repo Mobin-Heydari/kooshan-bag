@@ -110,7 +110,7 @@ class Product(models.Model):
         on_delete=models.CASCADE,
         verbose_name="دسته بندی اصلی محصول"
     )
-    
+
     category = models.ForeignKey(
         Category,
         on_delete=models.CASCADE,
@@ -154,16 +154,17 @@ class Product(models.Model):
         verbose_name="رنگ های محصول", blank=True
     )
     
-    sales = models.IntegerField(verbose_name="فروش", default=0)
+    sales = models.IntegerField(verbose_name="تعداد فروش", default=0)
     
     price = models.BigIntegerField(verbose_name="قیمت")
+
     str_price = models.CharField(
-        verbose_name="قیمت",
+        verbose_name="قیمت نوشتاری",
         max_length=200
     )
     
     quantity =models.PositiveIntegerField(verbose_name="تعداد موجود محصول")
-    available = models.BooleanField(verbose_name="موجود", default=True)
+    available = models.BooleanField(verbose_name="موجود است؟", default=True)
     
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -181,3 +182,4 @@ class Product(models.Model):
 
     def __str__(self):
         return f'{self.category.name}---{self.name}'
+    
