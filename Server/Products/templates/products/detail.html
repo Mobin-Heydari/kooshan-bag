@@ -35,7 +35,7 @@
                         href="./index.html"
                         class="text-sm text-quaternary-600 hover:text-quaternary-700 dark:text-quaternary-300 hover:dark:text-primary-light"
                       >
-                        روتی کالا
+                      کوشان بگ
                       </a>
                       <span class="text-quaternary-600 dark:text-quaternary-300">
                         <svg class="h-5 w-5">
@@ -108,7 +108,7 @@
                                 <li>
                                   <button
                                     type="button"
-                                    data-link="{% url 'products:product_detail' product.slug  product.id %}"
+                                    data-link="{% url 'products:product_detail' product.slug %}"
                                     onclick="copyToClipboardSocialShareDesktop(this)"
                                     class="flex w-full items-center justify-between rounded-lg px-4 py-3 text-sky-500 hover:bg-sky-500/10 dark:text-sky-400 dark:hover:bg-sky-400/10"
                                   >
@@ -183,7 +183,7 @@
                     <div
                       class="mb-2 flex items-center gap-x-1 text-tertiary-500 dark:text-tertiary-400"
                     >
-                      <a href="#"> {{ product.brand }} </a>
+                      {% comment %} <a href="#"> {{ product.brand }} </a> {% endcomment %}
                       <svg class="h-5 w-5">
                         <use xlink:href="#chevron-left" />
                       </svg>
@@ -222,7 +222,7 @@
                         </div>
                       </div>
                       <!-- left side -->
-                      <form action="{% url 'cart:add_to_cart' product.id %}" method="post">
+                      <form action="" method="post">
                         {% csrf_token %}
                         <div class="col-span-1 flex flex-col">
                           <div class="flex-grow">
@@ -441,7 +441,7 @@
                         <button
                           type="button"
                           onclick="copyToClipboardSocialShareMobile(this)"
-                          data-link="{% url 'products:product_detail' product.slug  product.id %}"
+                          data-link="{% url 'products:product_detail' product.slug %}"
                         >
                           <svg class="h-6 w-6">
                             <use xlink:href="#social-share" />
@@ -462,7 +462,7 @@
                   <div
                     class="flex items-center gap-x-1 text-sm font-light text-tertiary-500 dark:text-tertiary-400 md:text-base"
                   >
-                    <a href="#">{{ product.brand }}</a>
+                    {% comment %} <a href="#">{{ product.brand }}</a> {% endcomment %}
                     <svg class="h-5 w-5">
                       <use xlink:href="#chevron-left" />
                     </svg>
@@ -636,7 +636,7 @@
                           >
                             <!-- image -->
                             <div class="mb-2 md:mb-5" draggable="false">
-                              <a href="{% url "products:product_detail" product.slug product.id %}">
+                              <a href="{% url "products:product_detail" product.slug %}">
                                 <img
                                   alt=""
                                   class="mx-auto w-32 rounded-lg md:w-auto"
@@ -648,7 +648,7 @@
                             <div class="mb-2">
                               <a
                                 class="line-clamp-2 h-10 text-sm text-quaternary-700 dark:text-primary-light md:h-12 md:text-base"
-                                href="{% url "products:product_detail" product.slug product.id %}"
+                                href="{% url "products:product_detail" product.slug %}"
                               >
                               {{ product.name }}
                               </a>

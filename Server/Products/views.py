@@ -6,7 +6,6 @@ from .models import(
     Category,
     Product,
     Color,
-    Brand,
     Comment
 )
 from .forms import CommentForm
@@ -34,8 +33,8 @@ class ProductDetail(View):
         
         suggested_products = Product.objects.filter(
             primery_category = product.primery_category,
-            category = product.category,
-            brand = product.brand
+            category = product.category
+            
         ).order_by('-created')[:6]
         
         

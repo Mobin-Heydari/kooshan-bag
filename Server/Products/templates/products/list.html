@@ -68,43 +68,6 @@
                           </button>
                         </div>
                         <ul class="space-y-6">
-                          <!-- Price -->
-                          <li>
-                            <div>
-                              <p
-                                class="mb-4 text-quaternary-700 dark:text-primary-light"
-                              >
-                                محدوده قیمت
-                              </p>
-                              <div class="space-y-4">
-                                <div id="shop-price-slider"></div>
-                                <div class="flex items-center justify-between">
-                                  <div
-                                    class="text-tertiary-500 dark:text-tertiary-400"
-                                  >
-                                    <span
-                                      class="text-xs font-bold xl:text-sm"
-                                      id="shop-price-slider-min"
-                                    >
-                                    <input type="hidden" name="min_price">
-                                    </span>
-                                    <span class="text-xs">تومان</span>
-                                  </div>
-                                  <div
-                                    class="text-tertiary-500 dark:text-tertiary-400"
-                                  >
-                                    <span
-                                      class="text-xs font-bold xl:text-sm"
-                                      id="shop-price-slider-max"
-                                    >
-                                    <input type="hidden" name="max_price">
-                                    </span>
-                                    <span class="text-xs">تومان</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </li>
                           <!-- Categories -->
                           <li>
                             <details
@@ -143,41 +106,6 @@
                                     </div>
                                   </li>
                                   {% endfor %}
-                                </ul>
-                              </div>
-                            </details>
-                          </li>
-                          <!-- brands -->
-                          <li>
-                            <details
-                              class="[&amp;_summary::-webkit-details-marker]:hidden group"
-                            >
-                              <summary
-                                class="flex cursor-pointer items-center justify-between rounded-lg py-3 text-quaternary-700 dark:text-primary-light"
-                              >
-                                <span> برند ها </span>
-                                <span
-                                  class="shrink-0 transition duration-200 group-open:-rotate-90"
-                                >
-                                  <svg class="h-5 w-5">
-                                    <use xlink:href="#chevron-left" />
-                                  </svg>
-                                </span>
-                              </summary>
-                              <div class="mt-2 max-h-60 overflow-y-auto pl-1">
-                                <ul
-                                  class="space-y-2 rounded-lg"
-                                  id="brandListFilterDesktop"
-                                >
-                                  <li class="p-2">
-                                    <label class="sr-only">Brand search</label>
-                                    <input
-                                      id="brandListFilterDesktopSearchInput"
-                                      class="w-full rounded-lg border border-none bg-secondary-light px-2 py-3 text-quaternary-600 outline-none placeholder:text-sm placeholder:text-quaternary-500 focus:ring-0 dark:bg-primary-dark dark:text-quaternary-300 placeholder:dark:text-quaternary-400"
-                                      placeholder="جستجوی برند ..."
-                                      type="text"
-                                    />
-                                  </li>
                                 </ul>
                               </div>
                             </details>
@@ -298,13 +226,13 @@
                     <div class="relative rounded-xl bg-primary-light p-2 shadow-base dark:bg-secondary-dark md:p-5">
                       <!-- image -->
                       <div class="mb-2 md:mb-5" draggable="false">
-                        <a href="{% url "products:product_detail" product.slug product.id %}">
+                        <a href="{% url "products:product_detail" product.slug %}">
                           <img alt="" class="mx-auto w-32 rounded-lg md:w-auto"src="{{ product.image.url }}"/>
                         </a>
                       </div>
                       <!-- title -->
                       <div class="mb-1">
-                        <a class="line-clamp-2 h-10 text-sm text-quaternary-700 dark:text-primary-light md:h-12 md:text-base" href="{% url "products:product_detail" product.slug product.id %}">
+                        <a class="line-clamp-2 h-10 text-sm text-quaternary-700 dark:text-primary-light md:h-12 md:text-base" href="{% url "products:product_detail" product.slug %}">
                           {{ product.name }}</a>
                       </div>
                       <!-- Prices -->
@@ -391,37 +319,6 @@
 
             <div class="h-full pb-[150px]">
               <ul class="h-full space-y-6 overflow-y-auto p-4">
-                <!-- Price -->
-                <li>
-                  <div>
-                    <p class="mb-4 text-quaternary-700 dark:text-primary-light">
-                      محدوده قیمت
-                    </p>
-                    <div class="space-y-4">
-                      <div id="shop-price-slider"></div>
-                      <div class="flex items-center justify-between">
-                        <div class="text-tertiary-500 dark:text-tertiary-400">
-                          <span
-                            class="text-xs font-bold xl:text-sm"
-                            id="shop-price-slider-min"
-                          >
-                        </span>
-                        <input type="hidden" name="min_price" value="">
-                          <span class="text-xs">تومان</span>
-                        </div>
-                        <div class="text-tertiary-500 dark:text-tertiary-400">
-                          <span
-                            class="text-xs font-bold xl:text-sm"
-                            id="shop-price-slider-max"
-                          >
-                        </span>
-                        <input type="hidden" name="max_price" value="">
-                          <span class="text-xs">تومان</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
                 <!-- Categories -->
                 <li>
                   <details
@@ -456,58 +353,6 @@
                                 class="flex w-full cursor-pointer items-center justify-between py-2 pl-4 font-medium text-quaternary-600 dark:text-quaternary-300"
                               >
                                 <span>{{ category.name }}</span>
-                              </label>
-                            </div>
-                          </li>
-                        {% endfor %}
-                      </ul>
-                    </div>
-                  </details>
-                </li>
-                <!-- brands -->
-                <li>
-                  <details
-                    class="[&amp;_summary::-webkit-details-marker]:hidden group"
-                  >
-                    <summary
-                      class="flex cursor-pointer items-center justify-between rounded-lg py-3 text-quaternary-700 dark:text-primary-light"
-                    >
-                      <span> برند ها </span>
-                      <span
-                        class="shrink-0 transition duration-200 group-open:-rotate-90"
-                      >
-                        <svg class="h-5 w-5">
-                          <use xlink:href="#chevron-left" />
-                        </svg>
-                      </span>
-                    </summary>
-                    <div class="mt-2 max-h-60 overflow-y-auto pl-1">
-                      <ul class="space-y-2 rounded-lg" id="brandListFilterMobile">
-                        <li class="p-2">
-                          <label class="sr-only">Brand search</label>
-                          <input
-                            id="brandListFilterMobileSearchInput"
-                            class="w-full rounded-lg border border-none bg-secondary-light px-2 py-3 text-quaternary-600 outline-none placeholder:text-sm placeholder:text-quaternary-500 focus:ring-0 dark:bg-primary-dark dark:text-quaternary-300 placeholder:dark:text-quaternary-400"
-                            placeholder="جستجوی برند ..."
-                            type="text"
-                          />
-                        </li>
-                        {% for brand in brands %}
-                          <li>
-                            <div class="flex w-full items-center gap-x-2 pr-4">
-                              <input
-                                id="brand-nike-mobile"
-                                type="checkbox"
-                                name="brand"
-                                value="{{ brand.id }}"
-                                class="h-4 w-4 cursor-pointer rounded-xl border-senary-300 bg-secondary-light dark:border-senary-600 dark:bg-quaternary-700"
-                              />
-                              <label
-                                for="brand-nike-mobile"
-                                class="flex w-full cursor-pointer items-center justify-between py-2 pl-4 font-medium text-quaternary-600 dark:text-quaternary-300"
-                              >
-                                <span>{{ brand.name_en }}</span>
-                                <span>{{ brand.name_fa }}</span>
                               </label>
                             </div>
                           </li>
