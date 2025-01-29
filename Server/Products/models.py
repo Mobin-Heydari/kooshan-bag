@@ -182,4 +182,36 @@ class Product(models.Model):
 
     def __str__(self):
         return f'{self.category.name}---{self.name}'
+
+class Comment(models.Model):
+    class Suggestions(models.TextChoices):
+        SUGGESTING = "SUG", "Suggesting"
+        NOT_SUGGESTING = "NOS", "Not_suggesting"
     
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+        related_name='product_comments', verbose_name="محصول"
+    )
+    
+    title = models.CharField(
+        max_length=200,
+        verbose_name="عنوان"
+    )
+    
+    comment = models.TextField(verbose_name="کامنت")
+    
+    suggestion = models.CharField(
+        verbose_name="پیشنهاد",
+        max_length=3, choices=Suggestions.choices
+    )
+    
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "کامنت"
+        verbose_name_plural = "کامنت ها"
+        
+    def __str__(self):
+        return f'{self.product.name} __________ {self.comment[:50]}........'
