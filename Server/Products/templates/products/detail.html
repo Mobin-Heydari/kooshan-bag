@@ -1,0 +1,1461 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+<!doctype html>
+<html dir="rtl" lang="fa">
+  <head>
+    
+      {% block title %}
+        جزئیات محصول {{ product.name }}
+      {% endblock title %}
+  </head>
+  
+  <body>
+    <div class="flex min-h-screen flex-col">
+      {% block main %}
+        <main
+          class="flex-grow bg-secondary-light pb-14 pt-36 dark:bg-primary-dark xs:pt-36"
+        >
+          <div class="container">
+            <!-- Desktop Product Detail -->
+            <div class="hidden lg:block">
+              <!-- Breadcrumb -->
+              <div class="mb-6">
+                <nav
+                  aria-label="Breadcrumb"
+                  class="w-fit rounded-lg bg-primary-light px-4 py-4 shadow-base dark:bg-secondary-dark"
+                >
+                  <ol
+                    class="flex flex-wrap items-center justify-center gap-x-2 gap-y-4"
+                  >
+                    <li class="flex items-center gap-x-2">
+                      <a
+                        href="./index.html"
+                        class="text-sm text-quaternary-600 hover:text-quaternary-700 dark:text-quaternary-300 hover:dark:text-primary-light"
+                      >
+                        روتی کالا
+                      </a>
+                      <span class="text-quaternary-600 dark:text-quaternary-300">
+                        <svg class="h-5 w-5">
+                          <use xlink:href="#chevron-left" />
+                        </svg>
+                      </span>
+                    </li>
+                    <li class="flex items-center gap-x-2">
+                      <a
+                        href="#"
+                        class="text-sm text-quaternary-600 hover:text-quaternary-700 dark:text-quaternary-300 hover:dark:text-primary-light"
+                      >
+                        {{ product.primery_category }}
+                      </a>
+                      <span class="text-quaternary-600 dark:text-quaternary-300">
+                        <svg class="h-5 w-5">
+                          <use xlink:href="#chevron-left" />
+                        </svg>
+                      </span>
+                    </li>
+
+                    <li>
+                      <a
+                        href="#"
+                        class="text-sm text-quaternary-600 hover:text-quaternary-700 dark:text-quaternary-300 hover:dark:text-primary-light"
+                      >
+                      {{ product.category }}
+                      </a>
+                    </li>
+                  </ol>
+                </nav>
+              </div>
+              <!-- Product Detail Section -->
+              <div
+                class="mb-6 rounded-lg bg-primary-light p-6 shadow-base dark:bg-secondary-dark"
+              >
+                <div class="mb-6 grid flex-grow grid-cols-12 gap-4">
+                  <div class="col-span-4">
+                    <div class="min-w-fit space-y-2">
+                      <!-- Product other actions -->
+                      <div class="py-2">
+                        <div
+                          class="flex items-center gap-x-4 text-quaternary-700 dark:text-primary-light"
+                        >
+                          <!-- share on social -->
+                          <div>
+                            <button
+                              id="dropdownMenuCopySocialShareLink"
+                              data-dropdown-toggle="copy-social-share-link"
+                              data-tooltip-target="share-on-social"
+                              type="button"
+                            >
+                              <svg class="h-6 w-6">
+                                <use xlink:href="#social-share" />
+                              </svg>
+                            </button>
+                            <div
+                              id="share-on-social"
+                              role="tooltip"
+                              class="tooltip invisible absolute z-10 inline-block rounded-lg bg-secondary-dark px-3 py-2 text-sm font-medium text-primary-light opacity-0 shadow-sm transition-opacity duration-300 dark:bg-quaternary-800"
+                            >
+                              اشتراک گذاری
+                            </div>
+                            <!-- Dropdown menu -->
+                            <div
+                              class="z-10 !ml-5 hidden w-50 overflow-hidden rounded-lg border border-secondary-light bg-primary-light shadow-base dark:border-primary-light/5 dark:bg-secondary-dark"
+                              id="copy-social-share-link"
+                            >
+                              <ul class="space-y-2 p-2">
+                                <li>
+                                  <button
+                                    type="button"
+                                    data-link="{% url 'products:product_detail' product.slug  product.id %}"
+                                    onclick="copyToClipboardSocialShareDesktop(this)"
+                                    class="flex w-full items-center justify-between rounded-lg px-4 py-3 text-sky-500 hover:bg-sky-500/10 dark:text-sky-400 dark:hover:bg-sky-400/10"
+                                  >
+                                    <div class="flex items-center gap-x-2">
+                                      <svg class="h-6 w-6">
+                                        <use xlink:href="#copy"></use>
+                                      </svg>
+                                      <span id="copyToClipboardSocialShareText">
+                                        کپی کردن لینک
+                                      </span>
+                                    </div>
+                                  </button>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Main image -->
+                      <div>
+                        <img
+                          src="{{ product.image.url }}"
+                          alt=""
+                          class="mx-auto"
+                          loading="lazy"
+                        />
+                      </div>
+                      <!-- Gallery -->
+                      <div class="flex items-center justify-center gap-x-2">
+                        <!-- image -->
+                        {% for img in product.images.all %}
+                          <button
+                            type="button"
+                            data-modal-target="product-gallery-modal"
+                            data-modal-toggle="product-gallery-modal"
+                            class="cursor-pointer rounded-lg border border-secondary-light p-1 dark:border-primary-light/5"
+                          >
+                            <img
+                              src="{{ img.image.url }}"
+                              alt=""
+                              class="h-16 w-16 xl:h-20 xl:w-20"
+                              loading="lazy"
+                            />
+                          </button>
+                        {% endfor %}
+
+                        <!-- Load more -->
+                        <button
+                          type="button"
+                          data-modal-target="product-gallery-modal"
+                          data-modal-toggle="product-gallery-modal"
+                          class="relative cursor-pointer rounded-lg border border-secondary-light p-1 dark:border-primary-light/5"
+                        >
+                          <img
+                            src="{{ product.image.url }}"
+                            alt=""
+                            class="h-16 w-16 blur xl:h-20 xl:w-20"
+                            loading="lazy"
+                          />
+                          <span
+                            class="text-quaternary-700 dark:text-primary-light"
+                          >
+                            <svg class="absolute inset-0 mx-auto my-auto h-6 w-6">
+                              <use xlink:href="#horizontal-dot" />
+                            </svg>
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-span-8 flex min-h-full flex-col">
+                    <div
+                      class="mb-2 flex items-center gap-x-1 text-tertiary-500 dark:text-tertiary-400"
+                    >
+                      <a href="#"> {{ product.brand }} </a>
+                      <svg class="h-5 w-5">
+                        <use xlink:href="#chevron-left" />
+                      </svg>
+                    </div>
+                    <!-- Main Title ( persian ) -->
+                    <h1
+                      class="mb-4 text-lg font-semibold text-quaternary-700 dark:text-primary-light"
+                    >
+                    {{ product.name }}
+                    </h1>
+
+                    <div class="grid flex-grow grid-cols-2 gap-x-4">
+                      <!-- right side -->
+                      <div class="col-span-1">
+                        <!-- Title ( english) -->
+                        <div class="mb-4 flex items-center gap-x-2">
+                          <h2
+                            class="line-clamp-1 text-sm font-light text-quaternary-500 dark:text-quaternary-400"
+                          >
+                          {{ product.short_description }}
+                          </h2>
+                          <span
+                            class="h-px flex-grow bg-senary-200 dark:bg-primary-light/10"
+                          ></span>
+                        </div>
+                        <!-- comments & SKU -->
+                        <div
+                          class="mb-4 flex items-center gap-x-4 text-sm font-light text-tertiary-500 dark:text-tertiary-400"
+                        >
+                          <div>
+                            <a href="#"> کد کالا {{ product.id }}# </a>
+                          </div>
+                          <span
+                            class="h-4 w-px rounded-full bg-senary-200 dark:bg-primary-light/10"
+                          ></span>
+                        </div>
+                      </div>
+                      <!-- left side -->
+                      <form action="{% url 'cart:add_to_cart' product.id %}" method="post">
+                        {% csrf_token %}
+                        <div class="col-span-1 flex flex-col">
+                          <div class="flex-grow">
+                            <!-- variant -->
+                            <div class="mb-6 space-y-6">
+                              <!-- Color -->
+                              <div>
+                                <div
+                                  class="mb-4 text-quaternary-700 dark:text-primary-light"
+                                >
+                                  انتخاب رنگ
+                                </div>
+                                <fieldset class="flex flex-wrap items-center gap-1">
+                                  <legend class="sr-only">Color</legend>
+                                  {% for color in product.colors.all %}
+                                    {% if color.available == True %}
+                                      <div>
+                                          <input
+                                            type="radio"
+                                            name="color"
+                                            value="{{ color.color }}"
+                                            id="color-desktop-{{color.id}}"
+                                            class="peer hidden"
+                                          />
+                                        <label
+                                          for="color-desktop-{{color.id}}"
+                                          class="relative block cursor-pointer rounded-full border-2 border-secondary-light p-2 shadow-base peer-checked:border-tertiary-500 hover:border-senary-200 dark:border-primary-light/5 peer-checked:dark:border-tertiary-400 dark:hover:border-primary-light/10"
+                                        >
+                                          <div class="flex items-center gap-x-2">
+                                            <p
+                                              class="text-quaternary-600 dark:text-quaternary-300"
+                                            >
+                                            {{ color.color }}
+                                            </p>
+                                          </div>
+                                        </label>
+                                      </div>
+                                    {% endif %}
+                                  {% endfor %}
+                                </fieldset>
+                              </div>
+                            </div>
+                          </div>
+                          <div>
+                            <!-- verified text -->
+                            <div
+                              class="mb-6 flex items-center gap-x-2 rounded-lg bg-tertiary-500/10 p-4 text-sm text-tertiary-500 dark:bg-tertiary-400/5 dark:text-tertiary-400"
+                            >
+                              <svg class="h-6 w-6">
+                                <use xlink:href="#verified" />
+                              </svg>
+                              تضمین سلامت فیزیکی و اصالت کالا
+                            </div>
+                            <!-- price -->
+                            <div class="mb-6 flex items-center justify-between">
+                              <div
+                                class="flex h-12 w-32 items-center justify-between rounded-lg border border-secondary-light px-4 py-1 dark:border-primary-light/5"
+                              >
+                                <button type="button" data-action="increment">
+                                  <svg
+                                    class="h-6 w-6 text-tertiary-500 dark:text-tertiary-400"
+                                  >
+                                    <use xlink:href="#plus" />
+                                  </svg>
+                                </button>
+                                <input
+                                  value="1"
+                                  name="quantity"
+                                  type="number"
+                                  class="flex h-6 w-6 w-full select-none items-center justify-center bg-transparent text-center text-quaternary-700 outline-none dark:text-primary-light"
+                                />
+                                <button type="button" data-action="decrement">
+                                  <svg
+                                    class="h-6 w-6 text-red-600 dark:text-red-500"
+                                  >
+                                    <use xlink:href="#minus" />
+                                  </svg>
+                                </button>
+                              </div>
+                              <div>
+                                <div
+                                  class="flex items-center gap-x-1 text-tertiary-500 dark:text-tertiary-400"
+                                >
+                                  <span class="text-xl font-bold">{{ product.str_price }}</span>
+                                  <span>تومان</span>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- add to cart -->
+                            <div class="mb-6">
+                              <button class="btn-primary w-full py-3">
+                                افزودن به سبد خرید
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex justify-between gap-4">
+                  <div
+                    class="flex w-full items-center gap-x-2 rounded-lg border border-secondary-light px-2 py-4 text-sm text-quaternary-500 dark:border-primary-light/5 dark:text-quaternary-400"
+                  >
+                    <svg class="h-6 w-6">
+                      <use xlink:href="#refund" />
+                    </svg>
+                    هفت روز ضمانت بازگشت کالا
+                  </div>
+
+                  <div
+                    class="flex w-full items-center gap-x-2 rounded-lg border border-secondary-light px-2 py-4 text-sm text-quaternary-500 dark:border-primary-light/5 dark:text-quaternary-400"
+                  >
+                    <svg class="h-6 w-6">
+                      <use xlink:href="#verified" />
+                    </svg>
+                    تضمین اصالت کالا
+                  </div>
+                  <div
+                    class="flex w-full items-center gap-x-2 rounded-lg border border-secondary-light px-2 py-4 text-sm text-quaternary-500 dark:border-primary-light/5 dark:text-quaternary-400"
+                  >
+                    <svg class="h-6 w-6">
+                      <use xlink:href="#support" />
+                    </svg>
+                    هفت روز هفته
+                  </div>
+                  <div
+                    class="flex w-full items-center gap-x-2 rounded-lg border border-secondary-light px-2 py-4 text-sm text-quaternary-500 dark:border-primary-light/5 dark:text-quaternary-400"
+                  >
+                    <svg class="h-6 w-6">
+                      <use xlink:href="#fast-delivery" />
+                    </svg>
+                    تحویل اکسپرس در تهران, کرج
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Mobile Product Detail-->
+            <div class="lg:hidden">
+              <!-- breadcrumb -->
+              <div class="mb-4 flex flex-wrap items-center gap-2">
+                <div
+                  class="flex items-center gap-x-1 text-sm font-light text-tertiary-500 dark:text-tertiary-400 sm:text-base md:text-base"
+                >
+                  <a href="./index.html"> روتی کالا </a>
+                  <svg class="h-5 w-5">
+                    <use xlink:href="#chevron-left" />
+                  </svg>
+                </div>
+                <div
+                  class="flex items-center gap-x-1 text-sm font-light text-tertiary-500 dark:text-tertiary-400 sm:text-base md:text-base"
+                >
+                  <a href="./index.html"> {{ product.primery_category }} </a>
+                  <svg class="h-5 w-5">
+                    <use xlink:href="#chevron-left" />
+                  </svg>
+                </div>
+                <div
+                  class="line-clamp-1 text-sm font-light text-tertiary-500 dark:text-tertiary-400 sm:text-base md:text-base"
+                >
+                  <a href="#">{{ product.category }}</a>
+                </div>
+              </div>
+              <!-- Product Detail Section -->
+              <div
+                class="mb-6 rounded-lg bg-primary-light p-4 shadow-base dark:bg-secondary-dark"
+              >
+                <!-- Product Gallery -->
+                <div class="relative mb-4">
+                  <div class="swiper product-image-mobile-swiper">
+                    <div class="swiper-wrapper">
+                      <div class="swiper-slide">
+                        <img
+                          src="{{ product.image.url }}"
+                          alt=""
+                          class="mx-auto"
+                          loading="lazy"
+                        />
+                      </div>
+                      {% for img in product.images.all %}
+                        <div class="swiper-slide">
+                          <img
+                            src="{{ img.image.url }}"
+                            alt=""
+                            class="mx-auto"
+                            loading="lazy"
+                          />
+                        </div>
+                      {% endfor %}
+                    </div>
+                    <div class="swiper-pagination text-left"></div>
+                  </div>
+                  <div class="absolute left-0 top-0 z-10">
+                    <div
+                      class="flex items-center gap-x-4 text-quaternary-700 dark:text-primary-light"
+                    >
+                      <!-- add to favorite -->
+                      <div>
+                        <button>
+                          <svg class="h-6 w-6">
+                            <use xlink:href="#heart" />
+                          </svg>
+                        </button>
+                      </div>
+                      <!-- add to compare -->
+                      <div>
+                        <button>
+                          <svg class="h-6 w-6">
+                            <use xlink:href="#compare" />
+                          </svg>
+                        </button>
+                      </div>
+
+                      <!-- share on social -->
+                      <div class="relative">
+                        <button
+                          type="button"
+                          onclick="copyToClipboardSocialShareMobile(this)"
+                          data-link="{% url 'products:product_detail' product.slug  product.id %}"
+                        >
+                          <svg class="h-6 w-6">
+                            <use xlink:href="#social-share" />
+                          </svg>
+                        </button>
+                        <div
+                          id="notify-copied-social-share-link-mobile"
+                          class="absolute left-0 top-full z-10 hidden w-24 rounded-lg bg-secondary-dark px-3 py-2 text-center text-sm font-medium text-primary-light shadow-sm transition-opacity duration-300 dark:bg-quaternary-800"
+                        >
+                          کپی شد !
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- breadcrumb -->
+                <div class="mb-4 flex flex-wrap items-center gap-2">
+                  <div
+                    class="flex items-center gap-x-1 text-sm font-light text-tertiary-500 dark:text-tertiary-400 md:text-base"
+                  >
+                    <a href="#">{{ product.brand }}</a>
+                    <svg class="h-5 w-5">
+                      <use xlink:href="#chevron-left" />
+                    </svg>
+                  </div>
+                </div>
+                <!-- title -->
+                <div
+                  class="mb-4 font-semibold text-quaternary-700 dark:text-primary-light md:text-lg"
+                >
+                {{ product.name }}
+                </div>
+                <!-- comments & SKU -->
+                <div
+                  class="flex gap-x-4 text-sm font-light text-tertiary-500 dark:text-tertiary-400 md:text-base"
+                >
+                  <div>
+                    <a href="#"> کد کالا    {{ product.id }}#    </a>
+                  </div>
+                  <div>
+                    <a href="#"> 20 دیدگاه </a>
+                  </div>
+                </div>
+                <div
+                  class="my-4 h-px w-full bg-secondary-light dark:bg-primary-light/5"
+                ></div>
+                <!-- variant -->
+                <div class="mb-6 space-y-4">
+                  <!-- Color -->
+                  <div
+                    class="text-sm text-quaternary-700 dark:text-primary-light md:text-base"
+                  >
+                    انتخاب رنگ
+                  </div>
+                  <fieldset class="flex flex-wrap items-center gap-1">
+                    <legend class="sr-only">Color</legend>
+                    {% for color in product.colors.all %}
+                      <div>
+                        <input
+                          checked
+                          type="radio"
+                          name="color"
+                          value="{{ color.id }}"
+                          id="color-{{color.id}}"
+                          class="peer hidden"
+                        />
+
+                        <label
+                          for="color-{{color.id}}"
+                          class="relative block cursor-pointer rounded-full border-2 border-secondary-light p-2 shadow-base peer-checked:border-tertiary-500 hover:border-senary-200 dark:border-primary-light/5 peer-checked:dark:border-tertiary-400 dark:hover:border-primary-light/10"
+                        >
+                          <div class="flex items-center gap-x-2">
+                            <p
+                              class="text-sm text-quaternary-600 dark:text-quaternary-300 md:text-base"
+                            >
+                            {{ color.color }}
+                            </p>
+                          </div>
+                        </label>
+                      </div>
+                    {% endfor %}
+                  </fieldset>
+                  <!-- Quantity -->
+                  <div
+                    class="mb-4 text-sm text-quaternary-700 dark:text-primary-light md:text-base"
+                  >
+                    انتخاب تعداد
+                  </div>
+                  <div
+                    class="flex h-12 w-40 items-center justify-between rounded-lg border border-secondary-light px-4 py-1 dark:border-primary-light/5"
+                  >
+                    <button type="button" data-action="increment">
+                      <svg
+                        class="h-7 w-7 text-tertiary-500 dark:text-tertiary-400"
+                      >
+                        <use xlink:href="#plus" />
+                      </svg>
+                    </button>
+                    <input
+                      value="1"
+                      disabled
+                      type="number"
+                      NAME="quantity"
+                      class="flex h-6 w-6 w-full select-none items-center justify-center bg-transparent text-center text-quaternary-700 outline-none dark:text-primary-light"
+                    />
+                    <button type="button" data-action="decrement">
+                      <svg class="h-7 w-7 text-red-600 dark:text-red-500">
+                        <use xlink:href="#minus" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div
+                    class="flex items-center gap-x-2 rounded-lg border border-secondary-light px-4 py-3 text-sm text-quaternary-500 dark:border-primary-light/5 dark:text-quaternary-400"
+                  >
+                    <svg class="h-5 w-5">
+                      <use xlink:href="#refund" />
+                    </svg>
+                    هفت روز ضمانت بازگشت کالا
+                  </div>
+                  <div
+                    class="flex items-center gap-x-2 rounded-lg border border-secondary-light px-4 py-3 text-sm text-quaternary-500 dark:border-primary-light/5 dark:text-quaternary-400"
+                  >
+                    <svg class="h-6 w-6">
+                      <use xlink:href="#verified" />
+                    </svg>
+                    تضمین اصالت کالا
+                  </div>
+                  <div
+                    class="flex items-center gap-x-2 rounded-lg border border-secondary-light px-4 py-3 text-sm text-quaternary-500 dark:border-primary-light/5 dark:text-quaternary-400"
+                  >
+                    <svg class="h-6 w-6">
+                      <use xlink:href="#support" />
+                    </svg>
+                    هفت روز هفته
+                  </div>
+                  <div
+                    class="flex items-center gap-x-2 rounded-lg border border-secondary-light px-4 py-3 text-sm text-quaternary-500 dark:border-primary-light/5 dark:text-quaternary-400"
+                  >
+                    <svg class="h-6 w-6">
+                      <use xlink:href="#fast-delivery" />
+                    </svg>
+                    تحویل اکسپرس در تهران, کرج
+                  </div>
+                </div>
+              </div>
+
+              <!-- Add to Cart -->
+              <div
+                class="fixed inset-x-0 bottom-0 z-10 bg-primary-light p-5 dark:bg-secondary-dark"
+              >
+                <div class="flex items-center justify-between gap-x-6">
+                  <!-- Button -->
+                  <div class="flex grow">
+                    <button class="btn-primary w-full px-4 py-3 text-sm" type="submit">
+                      افزودن به سبد خرید
+                    </button>
+                  </div>
+                  <!-- Price -->
+                  <div class="space-y-1">
+                    <div class="text-tertiary-500 dark:text-tertiary-400">
+                      <span class="font-semibold">{{ product.str_price }}</span>
+                      <span class="text-sm font-light">تومان</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mb-6">
+              <div>
+                <!-- Section Header -->
+                <div class="mb-4 flex items-center justify-between">
+                  <h3
+                    class="font-medium text-quaternary-700 dark:text-primary-light md:text-lg lg:text-xl"
+                  >
+                    کالاهای مرتبط
+                  </h3>
+                </div>
+                <!-- Section Content -->
+                <div class="swiper product-slider p-px">
+                  <div class="swiper-wrapper">
+                    
+                    {% for product in suggested_products %}
+                      <div class="swiper-slide">
+                        <!-- Product Card -->
+                        <div
+                          class="border-gradient group relative rounded-base p-px before:absolute before:-inset-px before:h-[calc(100%+2px)] before:w-[calc(100%+2px)] before:rounded-base"
+                        >
+                          <div
+                            class="relative rounded-xl bg-primary-light p-2 shadow-base dark:bg-secondary-dark md:p-5"
+                          >
+                            <!-- image -->
+                            <div class="mb-2 md:mb-5" draggable="false">
+                              <a href="{% url "products:product_detail" product.slug product.id %}">
+                                <img
+                                  alt=""
+                                  class="mx-auto w-32 rounded-lg md:w-auto"
+                                  src="{{ product.image.url }}"
+                                />
+                              </a>
+                            </div>
+                            <!-- title -->
+                            <div class="mb-2">
+                              <a
+                                class="line-clamp-2 h-10 text-sm text-quaternary-700 dark:text-primary-light md:h-12 md:text-base"
+                                href="{% url "products:product_detail" product.slug product.id %}"
+                              >
+                              {{ product.name }}
+                              </a>
+                            </div>
+                            <!-- Prices -->
+                            <div class="flex flex-col">
+                              <div class="flex items-center justify-between">
+                                <!-- New price -->
+                                <div
+                                  class="text-sm font-bold text-tertiary-500 dark:text-tertiary-400 md:text-base"
+                                >
+                                  {{ product.str_price }}
+                                  <span class="text-xs font-light md:text-sm">تومان</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    {% endfor %}
+                  </div>
+                  <div class="swiper-button-next"></div>
+                  <div class="swiper-button-prev"></div>
+                </div>
+              </div>
+            </div>
+            <!-- description / specs / commment  -->
+            <div
+              class="rounded-lg bg-primary-light p-4 shadow-base dark:bg-secondary-dark"
+            >
+              <div class="mb-6">
+                <ul
+                  class="-mb-px flex justify-between gap-x-2 border-b border-secondary-light text-center text-sm font-medium dark:border-primary-light/5 xs:justify-start xs:gap-x-4 xs:text-base"
+                >
+                  <li>
+                    <a
+                      href="#description"
+                      class="inline-block rounded-t-lg border-b-2 border-transparent px-2 pb-2 text-quaternary-700 hover:text-quaternary-600 dark:text-primary-light dark:hover:text-quaternary-300"
+                    >
+                      معرفی
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#comments"
+                      class="relative inline-block rounded-t-lg border-b-2 border-transparent px-2 pb-2 text-quaternary-700 hover:text-quaternary-600 dark:text-primary-light dark:hover:text-quaternary-300"
+                    >
+                      دیدگاه ها
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="space-y-16 divide-y divide-secondary-light dark:divide-primary-light/5"
+              >
+                <div class="py-6" id="description">
+                  <div
+                    class="relative mb-16 w-fit text-xl font-medium text-quaternary-700 dark:text-primary-light"
+                  >
+                    معرفی
+                    <span
+                      class="absolute right-0 top-10 h-[3px] w-full rounded-full bg-tertiary-500 dark:bg-tertiary-400"
+                    >
+                    </span>
+                  </div>
+                  <div
+                    class="mb-6 max-h-[500px] overflow-hidden md:mb-10"
+                    id="descriptionContainer"
+                  >
+                    <div
+                      class="space-y-4 text-sm leading-loose text-quaternary-600 dark:text-quaternary-300 lg:text-base"
+                    >
+                      {% for des in prduct.descriptions.all %}
+                        <h5>
+                          {{ des.title }}
+                        </h5>
+                        <div class="flex justify-center">
+                          <img src="{{ des.image }}" alt="" />
+                        </div>
+                        <p>
+                          {{ des.description }}
+                        </p>
+                      {% endfor %}
+                    </div>
+                  </div>
+                  <div class="flex justify-center">
+                    <button
+                      class="btn-secondary-nobg hidden md:flex"
+                      id="toggleDescriptionButton"
+                    >
+                      مشاهده بیشتر
+                      <svg class="h-5 w-5">
+                        <use xlink:href="#chevron-left" />
+                      </svg>
+                    </button>
+                    <button
+                      id="descriptionButtonMobile"
+                      aria-controls="mobile-description-drawer-navigation"
+                      data-drawer-show="mobile-description-drawer-navigation"
+                      data-drawer-placement="bottom"
+                      data-drawer-target="mobile-description-drawer-navigation"
+                      type="button"
+                      class="btn-secondary-nobg md:hidden"
+                    >
+                      مشاهده بیشتر
+                      <svg class="h-5 w-5">
+                        <use xlink:href="#chevron-left" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="py-6" id="comments">
+                  <div
+                    class="relative mb-16 w-fit text-xl font-medium text-quaternary-700 dark:text-primary-light"
+                  >
+                  دیدگاه
+                  <span
+                      class="absolute right-0 top-10 h-[3px] w-full rounded-full bg-tertiary-500 dark:bg-tertiary-400"
+                    >
+                    </span>
+                  </div>
+
+                  <div>
+                    <div class="grid grid-cols-12 gap-y-8 md:gap-8">
+                      <!-- Submit New Comment -->
+                      <div class="col-span-12 md:col-span-4 lg:col-span-3">
+                        <form method="post">
+                          {% csrf_token %}
+                          <div class="grid grid-cols-2 gap-4 md:sticky md:top-32">
+                            <div
+                              class="text-lg text-quaternary-700 dark:text-primary-light"
+                            >
+                              ثبت دیدگاه
+                            </div>
+                            <div class="col-span-2">
+                              <label
+                                for="title"
+                                class="relative block rounded-lg border border-secondary-light shadow-base dark:border-primary-light/5"
+                              >
+                                {{ form.title }}
+                                <span
+                                  class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-primary-light px-2 py-0.5 text-sm text-quaternary-600 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-sm dark:bg-secondary-dark dark:text-quaternary-300"
+                                >
+                                  عنوان دیدگاه
+                                </span>
+                              </label>
+                            </div>
+                            <div class="col-span-2">
+                              <!-- Suggestion -->
+                              <div
+                                class="mb-4 text-sm text-quaternary-500 dark:text-quaternary-400"
+                              >
+                                این محصول را به دیگران پیشنهاد
+                              </div>
+                              <fieldset class="flex items-center gap-4">
+                                <legend class="sr-only">Suggestion</legend>
+  
+                                <div class="w-full">
+                                  <input
+                                    type="radio"
+                                    name="suggestion"
+                                    value="SUG"
+                                    id="suggest-like"
+                                    class="peer hidden"
+                                  /> 
+                                  <label
+                                    for="suggest-like"
+                                    class="relative block cursor-pointer rounded-lg border border-secondary-light p-2 shadow-base peer-checked:border-tertiary-500 hover:border-senary-200 dark:border-primary-light/5 peer-checked:dark:border-tertiary-400 dark:hover:border-primary-light/10"
+                                  >
+                                    <div
+                                      class="flex items-center gap-x-2 text-tertiary-500 dark:text-tertiary-400"
+                                    >
+                                      <svg class="h-5 w-5">
+                                        <use xlink:href="#like" />
+                                      </svg>
+                                      <p class="text-sm xs:text-base">میکنم</p>
+                                    </div>
+                                  </label>
+                                </div>
+  
+                                <div class="w-full">
+                                  <input
+                                    type="radio"
+                                    name="suggestion"
+                                    value="NOS"
+                                    id="suggest-dislike"
+                                    class="peer hidden"
+                                  />
+  
+                                  <label
+                                    for="suggest-dislike"
+                                    class="relative block cursor-pointer rounded-lg border border-secondary-light p-2 shadow-base peer-checked:border-red-500 hover:border-senary-200 dark:border-primary-light/5 peer-checked:dark:border-red-400 dark:hover:border-primary-light/10"
+                                  >
+                                    <div
+                                      class="flex items-center gap-x-2 text-red-500 dark:text-red-400"
+                                    >
+                                      <svg class="h-5 w-5">
+                                        <use xlink:href="#dislike" />
+                                      </svg>
+                                      <p class="text-sm xs:text-base">نمیکنم</p>
+                                    </div>
+                                  </label>
+                                </div>
+                              </fieldset>
+                            </div>
+                            <div class="col-span-2">
+                              <label
+                                for="comment"
+                                class="relative block rounded-lg border border-secondary-light shadow-base dark:border-primary-light/5"
+                              >
+                                {{ form.comment }}
+  
+                                <span
+                                  class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-primary-light px-2 py-0.5 text-sm text-quaternary-600 transition-all peer-placeholder-shown:top-6 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-sm dark:bg-secondary-dark dark:text-quaternary-300"
+                                >
+                                  متن دیدگاه
+                                </span>
+                              </label>
+                            </div>
+                            <div class="col-span-2 flex justify-end">
+                              <button
+                                class="btn-primary w-full px-4 py-2 md:w-auto"
+                                type="submit"
+                              >
+                                ارسال دیدگاه
+                              </button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                      <!-- Comments -->
+                      <div
+                        class="order-first col-span-12 mb-10 max-h-[500px] overflow-hidden md:order-last md:col-span-8 lg:col-span-9"
+                        id="commentsContainer"
+                      >
+                        <!-- Desktop Comments -->
+                        <div class="hidden md:block">
+                          <ul
+                            class="mb-8 space-y-4 divide-y divide-senary-200 dark:divide-primary-light/10"
+                          >
+                            {% for comment in comments %}
+                            <li>
+                              <div class="py-6">
+                                <h5
+                                  class="mb-4 leading-relaxed text-quaternary-700 dark:text-primary-light xl:text-lg"
+                                >
+                                {{ comment.title }}
+                                </h5>
+                                <div
+                                  class="mb-6 flex items-center gap-x-4 border-b border-secondary-light pb-6 dark:border-primary-light/5"
+                                >
+                                {% if comment.suggestion == 'SUG' %}
+                                  <div
+                                    class="flex items-center gap-x-2 text-tertiary-500 dark:text-tertiary-400"
+                                  >
+                                    <svg class="h-5 w-5">
+                                      <use xlink:href="#like" />
+                                    </svg>
+                                    پیشنهاد میکنم
+                                  </div>
+                                
+                                {% else %}
+                                    <div
+                                      class="flex items-center gap-x-2 text-red-500 dark:text-red-400"
+                                    >
+                                      <svg class="h-5 w-5">
+                                        <use xlink:href="#dislike" />
+                                      </svg>
+                                      پیشنهاد نمیکنم
+                                    </div>
+                                {% endif %}
+                                  <div class="flex items-center gap-x-2">
+                                    <div
+                                      class="text-sm text-quaternary-500 dark:text-quaternary-400"
+                                    >
+                                    {{ comment.created }}
+                                    </div>
+                                    <span
+                                      class="h-3 w-px rounded-full bg-senary-200 dark:bg-primary-light/10"
+                                    ></span>
+                                  </div>
+                                </div>
+                                <div
+                                  class="mb-6 border-b border-secondary-light pb-6 dark:border-primary-light/5"
+                                >
+                                  <p
+                                    class="line-clamp-4 text-sm text-quaternary-600 dark:text-quaternary-300"
+                                  >
+                                  {{ comment.comment }}
+                                  </p>
+                                </div>
+                              </div>
+                            </li>
+                            {% endfor %}
+                            
+                          </ul>
+                          <!-- Pagination -->
+                          {% if comments.has_other_pages %}
+                            <div
+                              class="flex items-center justify-center gap-x-4 md:justify-end"
+                            >
+                              <!-- Previous page-->
+                              {% if comments.has_previous %}
+                                <a
+                                  class="pagination-button flex items-center justify-center"
+                                  href="?page={{ comments.previous_page_number }}"
+                                >
+                                  <svg class="h-6 w-6">
+                                    <use xlink:href="#chevron-right"></use>
+                                  </svg>
+                                </a>
+                              {% endif %}
+                              <!-- Pages -->
+                              {% for i in comments.paginator.page_range %}
+                                <div class="flex items-center gap-x-2">
+                                  {% if comments.number == i %}
+                                    <a
+                                      class="pagination-button pagination-button-active"
+                                      href="?page={{ i }}"
+                                    >
+                                    {{i}}
+                                    </a>
+                                  {% else %}
+                                    <a class="pagination-button" href="?page={{ i }}"> {{ i }} </a>
+                                  {% endif %}
+                                </div>
+                              {% endfor %}
+                              <!-- Next page-->
+                              {% if comments.has_next %}
+                                <a
+                                  class="flex h-8 w-8 items-center justify-center rounded-full bg-primary-light text-quaternary-700 transition-all duration-200 hover:bg-tertiary-500 hover:text-primary-light dark:bg-secondary-dark dark:text-primary-light hover:dark:bg-tertiary-600"
+                                  href="?page={{ comments.next_page_number }}"
+                                >
+                                  <svg class="h-6 w-6">
+                                    <use xlink:href="#chevron-left"></use>
+                                  </svg>
+                                </a>
+                                {% endif %}
+                            </div>
+                          {% endif %}
+                        </div>
+                        <!-- Mobile Comments -->
+                        <div class="md:hidden">
+                          <div class="swiper product-comments-swiper">
+                            <div class="swiper-wrapper">
+                              
+                              <!-- Comment -->
+                              {% for comment in comments %}
+                                <div class="swiper-slide">
+                                  <div
+                                    class="flex h-64 flex-col rounded-lg border border-secondary-light px-4 py-6 dark:border-primary-light/5"
+                                  >
+                                    <!-- head -->
+                                    {% if comment.suggestion == 'SUG' %}
+                                      <div
+                                        class="flex items-center gap-x-2 text-tertiary-500 dark:text-tertiary-400"
+                                      >
+                                        <svg class="h-5 w-5">
+                                          <use xlink:href="#like" />
+                                        </svg>
+                                        پیشنهاد میکنم
+                                      </div>
+                                    
+                                    {% else %}
+                                        <div
+                                          class="flex items-center gap-x-2 text-red-500 dark:text-red-400"
+                                        >
+                                          <svg class="h-5 w-5">
+                                            <use xlink:href="#dislike" />
+                                          </svg>
+                                          پیشنهاد نمیکنم
+                                        </div>
+                                    {% endif %}
+                                    <!-- Comment -->
+                                    <div class="flex-grow space-y-2">
+                                      <h5
+                                        class="text-sm leading-relaxed text-quaternary-700 dark:text-primary-light"
+                                      >
+                                      {{ comment.title }}
+                                      </h5>
+                                      <p
+                                        class="line-clamp-4 text-sm leading-relaxed text-quaternary-600 dark:text-quaternary-300"
+                                      >
+                                      {{ comment.comment }}
+                                      </p>
+                                    </div>
+                                    <!-- Footer -->
+                                    <div class="flex items-center justify-between">
+                                      <div class="flex items-center gap-x-2">
+                                        <div
+                                          class="text-xs text-quaternary-500 dark:text-quaternary-400"
+                                        >
+                                        {{ comment.created }}
+                                        </div>
+                                        <span
+                                          class="h-3 w-px rounded-full bg-senary-200 dark:bg-primary-light/10"
+                                        ></span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              {% endfor %}
+
+                              <!-- Load More -->
+                              <div class="swiper-slide">
+                                <div
+                                  class="flex h-64 items-center justify-center"
+                                >
+                                  <div
+                                    aria-controls="mobile-comments-drawer-navigation"
+                                    data-drawer-show="mobile-comments-drawer-navigation"
+                                    data-drawer-placement="bottom"
+                                    data-drawer-target="mobile-comments-drawer-navigation"
+                                    type="button"
+                                    class="flex flex-col items-center justify-center gap-y-4 text-tertiary-500 dark:text-tertiary-400"
+                                  >
+                                    <div
+                                      class="rounded-full border border-tertiary-500 p-2 dark:border-tertiary-400"
+                                    >
+                                      <svg class="h-6 w-6">
+                                        <use xlink:href="#chevron-left" />
+                                      </svg>
+                                    </div>
+                                    <div>مشاهده بیشتر</div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="hidden justify-center md:flex">
+                    <button class="btn-secondary-nobg" id="toggleCommentsButton">
+                      مشاهده بیشتر
+                      <svg class="h-5 w-5">
+                        <use xlink:href="#chevron-left" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+        <!-- Product Gallery modal -->
+        <div
+          id="product-gallery-modal"
+          tabindex="-1"
+          aria-hidden="true"
+          class="main-scroll fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full overflow-y-auto overflow-x-hidden p-4 md:inset-0"
+        >
+          <div class="relative max-h-full w-full max-w-7xl">
+            <div
+              class="divide-y divide-secondary-light overflow-hidden rounded-lg bg-primary-light shadow ring-1 ring-secondary-light dark:divide-primary-light/5 dark:bg-secondary-dark dark:ring-primary-light/5"
+            >
+              <div class="px-4 py-5 sm:px-6">
+                <div class="flex items-center justify-between">
+                  <h3
+                    class="line-clamp-1 text-quaternary-700 dark:text-primary-light md:text-lg"
+                  >
+                  {{ product.name }}
+                  </h3>
+                  <button
+                    class="text-quaternary-700 dark:text-primary-light"
+                    data-modal-hide="product-gallery-modal"
+                    type="button"
+                  >
+                    <svg class="h-5 w-5">
+                      <use xlink:href="#close" />
+                    </svg>
+
+                    <span class="sr-only">Close menu</span>
+                  </button>
+                </div>
+              </div>
+              <div>
+                <div class="flex flex-col gap-4">
+                  <div
+                    class="border-b border-secondary-light p-6 dark:border-primary-light/5"
+                  >
+                    <div class="swiper product-image-desktop-swiper">
+                      <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                          <img
+                            src="{{ product.image.url }}"
+                            alt=""
+                            class="mx-auto min-h-[500px] min-w-[500px]"
+                            loading="lazy"
+                          />
+                        </div>
+
+                      {% for img in product.images.all %}
+                        <div class="swiper-slide">
+                          <img
+                            src="{{ img.image.url }}"
+                            alt=""
+                            class="mx-auto min-h-[500px] min-w-[500px]"
+                            loading="lazy"
+                          />
+                        </div>
+                      {% endfor %}
+                      </div>
+                      <div class="swiper-pagination"></div>
+                      <div class="swiper-button-next hidden md:flex"></div>
+                      <div class="swiper-button-prev hidden md:flex"></div>
+                    </div>
+                  </div>
+                  <div class="p-6">
+                    <div class="swiper product-image-desktop-2-swiper">
+                      <div class="swiper-wrapper justify-center">
+                        <div
+                          class="swiper-slide rounded-lg border border-secondary-light dark:border-primary-light/5"
+                        >
+                          <img
+                            src="{{ product.image.url }}"
+                            alt=""
+                            class="mx-auto h-25 w-25"
+                            loading="lazy"
+                          />
+                        </div>
+                        {% for img in product.images.all %}
+                          <div
+                            class="swiper-slide rounded-lg border border-secondary-light dark:border-primary-light/5"
+                          >
+                            <img
+                              src="{{ img.image.url }}"
+                              alt=""
+                              class="mx-auto h-25 w-25"
+                              loading="lazy"
+                            />
+                          </div>
+                        {% endfor %}
+                      </div>
+                      <div class="swiper-button-next hidden md:flex"></div>
+                      <div class="swiper-button-prev hidden md:flex"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Mobile Comments modal -->
+        <div
+          aria-labelledby="mobile-comments-drawer-navigation-label"
+          class="fixed bottom-0 left-0 right-0 z-40 h-full w-full translate-y-full bg-primary-light transition-transform duration-300 dark:bg-secondary-dark"
+          id="mobile-comments-drawer-navigation"
+          tabindex="-1"
+        >
+          <div
+            class="flex items-center justify-between gap-x-4 border-b border-secondary-light p-4 pb-5 dark:border-primary-light/5"
+          >
+            <h5 class="text-lg text-quaternary-600 dark:text-quaternary-300">
+              دیدگاه ها
+            </h5>
+            <button
+              aria-controls="mobile-comments-drawer-navigation"
+              class="inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-quaternary-600 hover:bg-quaternary-100 hover:text-senary-900 dark:text-quaternary-300 dark:hover:bg-primary-dark dark:hover:text-primary-light"
+              data-drawer-hide="mobile-comments-drawer-navigation"
+              type="button"
+            >
+              <svg class="h-5 w-5">
+                <use xlink:href="#close" />
+              </svg>
+
+              <span class="sr-only">Close menu</span>
+            </button>
+          </div>
+
+          <div class="h-full overflow-y-auto p-4 pb-32">
+            <ul class="space-y-6">
+              {% for comment in comments %}
+                <li>
+                  <div
+                    class="flex h-64 flex-col rounded-lg border border-secondary-light px-4 py-6 dark:border-primary-light/5"
+                  >
+                    <!-- head -->
+                    <div
+                      class="mb-4 flex items-center gap-x-2 text-tertiary-500 dark:text-tertiary-400"
+                    >
+                      <svg class="h-5 w-5">
+                        <use xlink:href="#like" />
+                      </svg>
+                      پیشنهاد میکنم
+                    </div>
+                    <!-- Comment -->
+                    <div class="flex-grow space-y-2">
+                      <h5
+                        class="text-sm leading-relaxed text-quaternary-700 dark:text-primary-light"
+                      >
+                      {{ comment.title }}
+                      </h5>
+                      <p
+                        class="line-clamp-4 text-sm leading-relaxed text-quaternary-600 dark:text-quaternary-300"
+                      >
+                      {{ comment.comment }}
+                      </p>
+                    </div>
+                    <!-- Footer -->
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-center gap-x-2">
+                        <div
+                          class="text-xs text-quaternary-500 dark:text-quaternary-400"
+                        >
+                        {{ comment.created }}
+                        </div>
+                        <span
+                          class="h-3 w-px rounded-full bg-senary-200 dark:bg-primary-light/10"
+                        ></span>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              {% endfor %}
+            </ul>
+            <!-- Pagination -->
+            {% if comments.has_other_pages %}
+              <div
+                class="flex items-center justify-center gap-x-4 md:justify-end"
+              >
+                <!-- Previous page-->
+                {% if comments.has_previous %}
+                  <a
+                    class="pagination-button flex items-center justify-center"
+                    href="?page={{ comments.previous_page_number }}"
+                  >
+                    <svg class="h-6 w-6">
+                      <use xlink:href="#chevron-right"></use>
+                    </svg>
+                  </a>
+                {% endif %}
+                <!-- Pages -->
+                {% for i in comments.paginator.page_range %}
+                  <div class="flex items-center gap-x-2">
+                    {% if comments.number == i %}
+                      <a
+                        class="pagination-button pagination-button-active"
+                        href="?page={{ i }}"
+                      >
+                      {{i}}
+                      </a>
+                    {% else %}
+                      <a class="pagination-button" href="?page={{ i }}"> {{ i }} </a>
+                    {% endif %}
+                  </div>
+                {% endfor %}
+                <!-- Next page-->
+                {% if comments.has_next %}
+                  <a
+                    class="flex h-8 w-8 items-center justify-center rounded-full bg-primary-light text-quaternary-700 transition-all duration-200 hover:bg-tertiary-500 hover:text-primary-light dark:bg-secondary-dark dark:text-primary-light hover:dark:bg-tertiary-600"
+                    href="?page={{ comments.next_page_number }}"
+                  >
+                    <svg class="h-6 w-6">
+                      <use xlink:href="#chevron-left"></use>
+                    </svg>
+                  </a>
+                  {% endif %}
+              </div>
+          {% endif %}
+          </div>
+        </div>
+        <!-- Mobile Description modal -->
+        <div
+          aria-labelledby="mobile-description-drawer-navigation-label"
+          class="fixed bottom-0 left-0 right-0 z-40 h-full w-full translate-y-full bg-primary-light transition-transform duration-300 dark:bg-secondary-dark"
+          id="mobile-description-drawer-navigation"
+          tabindex="-1"
+        >
+          <div
+            class="flex items-center justify-between gap-x-4 border-b border-secondary-light p-4 pb-5 dark:border-primary-light/5"
+          >
+            <h5 class="text-lg text-quaternary-600 dark:text-quaternary-300">
+              معرفی
+            </h5>
+            <button
+              aria-controls="mobile-description-drawer-navigation"
+              class="inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-quaternary-600 hover:bg-quaternary-100 hover:text-senary-900 dark:text-quaternary-300 dark:hover:bg-primary-dark dark:hover:text-primary-light"
+              data-drawer-hide="mobile-description-drawer-navigation"
+              type="button"
+            >
+              <svg class="h-5 w-5">
+                <use xlink:href="#close" />
+              </svg>
+
+              <span class="sr-only">Close menu</span>
+            </button>
+          </div>
+
+          <div class="h-full overflow-y-auto p-4 pb-32">
+            <div
+              class="space-y-4 text-sm leading-loose text-quaternary-600 dark:text-quaternary-300 lg:text-base"
+            >
+            {% for des in product.descriptions.all %}
+              <h5>
+                {{ des.title }}
+              </h5>
+              <div class="flex justify-center">
+                <img src="{{ des.image.url }}" alt="" />
+              </div>
+              <p>
+                {{ des.description}}
+              </p>
+            {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% block scripts %}
+          <script>
+              const copyToClipboardSocialShareDesktop = (button) => {
+              const linkToCopy = button.getAttribute("data-link");
+              if (linkToCopy) {
+                  navigator.clipboard
+                  .writeText(linkToCopy)
+                  .then(function () {
+                      const copyToClipboardSocialShareText = document.getElementById(
+                      "copyToClipboardSocialShareText",
+                      );
+                      copyToClipboardSocialShareText.innerText = "کپی شد !";
+      
+                      // Revert the text after 5 seconds
+                      setTimeout(function () {
+                      copyToClipboardSocialShareText.innerText = "کپی کردن لینک";
+                      }, 5000);
+                  })
+                  .catch(function (err) {
+                      console.error("مشکلی در عملیات پیش آمد", err);
+                  });
+              }
+              };
+              const copyToClipboardSocialShareMobile = (button) => {
+              const linkToCopy = button.getAttribute("data-link");
+              console.log(linkToCopy);
+              if (linkToCopy) {
+                  navigator.clipboard
+                  .writeText(linkToCopy)
+                  .then(function () {
+                      const copyToClipboardSocialShareNotifyMobile =
+                      document.getElementById(
+                          "notify-copied-social-share-link-mobile",
+                      );
+                      copyToClipboardSocialShareNotifyMobile.classList.remove("hidden");
+      
+                      // Revert the text after 5 seconds
+                      setTimeout(function () {
+                      copyToClipboardSocialShareNotifyMobile.classList.add("hidden");
+                      }, 5000);
+                  })
+                  .catch(function (err) {
+                      console.error("مشکلی در عملیات پیش آمد", err);
+                  });
+              }
+              };
+      
+              // Define a function to handle the toggling of content and buttons
+              function toggleContent(container, button) {
+              if (container.offsetHeight !== 500) {
+                  button.remove();
+              }
+      
+              button.addEventListener("click", () => {
+                  if (container.classList.contains("max-h-[500px]")) {
+                  container.classList.remove("max-h-[500px]");
+                  button.innerHTML =
+                      'بستن <svg class="w-5 h-5"><use xlink:href="#chevron-left"/></svg>';
+                  } else {
+                  container.classList.add("max-h-[500px]");
+                  button.innerHTML =
+                      'مشاهده بیشتر <svg class="w-5 h-5"><use xlink:href="#chevron-left"/></svg>';
+                  }
+              });
+              }
+      
+              // Find and toggle the description content
+              const descriptionContainer = document.getElementById(
+              "descriptionContainer",
+              );
+              const toggleDescriptionButton = document.getElementById(
+              "toggleDescriptionButton",
+              );
+              const descriptionButtonMobile = document.getElementById(
+              "descriptionButtonMobile",
+              );
+              if (descriptionContainer.offsetHeight !== 500) {
+              descriptionButtonMobile.remove();
+              }
+              toggleContent(descriptionContainer, toggleDescriptionButton);
+      
+              // Find and toggle the specs content
+              const specsContainer = document.getElementById("specsContainer");
+              const toggleSpecsButton = document.getElementById("toggleSpecsButton");
+              const specsButtonMobile = document.getElementById("specsButtonMobile");
+              if (specsContainer.offsetHeight !== 500) {
+              specsButtonMobile.remove();
+              }
+              toggleContent(specsContainer, toggleSpecsButton);
+      
+              // Find and toggle the comments content
+              const commentsContainer = document.getElementById("commentsContainer");
+              const toggleCommentsButton = document.getElementById(
+              "toggleCommentsButton",
+              );
+              toggleContent(commentsContainer, toggleCommentsButton);
+          </script>
+      {% endblock scripts %}
+    {% endblock main %}
+  </body>
+</html>
