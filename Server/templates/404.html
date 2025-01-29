@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+{% block main %}
+    <main
+      class="flex-grow bg-secondary-light pb-14 pt-36 dark:bg-primary-dark xs:pt-36"
+    >
+        <div class="mt-10 flex flex-col items-center justify-center gap-y-6">
+          <h1
+            class="text-9xl font-bold text-quaternary-600 dark:text-quaternary-300"
+          >
+            404
+          </h1>
+          <h2
+            class="text-lg text-quaternary-600 dark:text-quaternary-300 lg:text-xl"
+          >
+            صفحه‌ای که دنبال آن بودید پیدا نشد!
+          </h2>
+          <a class="btn-primary px-6 py-3" href="{% url "home:home" %}"
+            >بازگشت به صفحه اصلی</a
+          >
+        </div>
+    </main>
+{% endblock main %}
