@@ -9,5 +9,6 @@ urlpatterns = [
     path('products/', include('Products.urls', namespace="Products")),
     path('auth/', include('Accounts.urls', namespace="Accounts")),
     path('contacts/', include('ContactUs.urls', namespace="Contact")),
+    path('cart/', include('Cart.urls', namespace="Cart")),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
