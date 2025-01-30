@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'Accounts.apps.AccountsConfig',
     'ContactUs.apps.ContactusConfig',
     'Cart.apps.CartConfig',
+    'Addreses.apps.AddresesConfig',
 ]
 
 MIDDLEWARE = [
