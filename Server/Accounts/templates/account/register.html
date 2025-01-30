@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+ثبت نام
+{% endblock title %}
+
+{% block main %}
+<br><br><br><br>
+    <div
+      class="flex min-h-screen items-center justify-center bg-secondary-light dark:bg-primary-dark"
+    >
+      <div class="container">
+        <div
+          class="mx-auto max-w-[450px] rounded-xl bg-primary-light p-5 shadow-base dark:bg-secondary-dark md:p-10"
+        >
+          <!-- Logo -->
+          <a href="./index.html">
+            <img
+              src="{% static "assets/images/logo.svg" %}"
+              class="mx-auto mb-10 w-40"
+              alt=""
+            />
+          </a>
+          <h1 class="mb-10 text-center text-lg text-quaternary-700 dark:text-primary-light">
+           ثبت نام
+          </h1>
+          <form  method="post">
+            {% csrf_token %}
+            <div class="mb-4 space-y-4">
+                <label
+                  for="username"
+                  class="relative block rounded-lg border border-secondary-light shadow-base dark:border-primary-light/5"
+                >
+                  {{form.email}}
+                  <span
+                    class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-primary-light px-2 py-0.5 text-sm text-quaternary-600 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-sm dark:bg-secondary-dark dark:text-quaternary-300"
+                  >
+                  ایمیل  
+                  </span>
+                </label>
+    
+                <label
+                  for="username"
+                  class="relative block rounded-lg border border-secondary-light shadow-base dark:border-primary-light/5"
+                >
+                  {{form.password}}
+                  <span
+                    class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-primary-light px-2 py-0.5 text-sm text-quaternary-600 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-sm dark:bg-secondary-dark dark:text-quaternary-300"
+                  >
+                    رمز عبور
+                  </span>
+                </label>
+
+                <label
+                  for="username"
+                  class="relative block rounded-lg border border-secondary-light shadow-base dark:border-primary-light/5"
+                >
+                  {{form.password_conf}}
+                  <span
+                    class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-primary-light px-2 py-0.5 text-sm text-quaternary-600 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-sm dark:bg-secondary-dark dark:text-quaternary-300"
+                  >
+                     تکرار رمز عبور
+                  </span>
+                </label>
+
+                <label
+                  for="username"
+                  class="relative block rounded-lg border border-secondary-light shadow-base dark:border-primary-light/5"
+                >
+                  {{form.f_name}}
+                  <span
+                    class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-primary-light px-2 py-0.5 text-sm text-quaternary-600 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-sm dark:bg-secondary-dark dark:text-quaternary-300"
+                  >
+                     نام
+                  </span>
+                </label>
+                <label
+                  for="username"
+                  class="relative block rounded-lg border border-secondary-light shadow-base dark:border-primary-light/5"
+                >
+                  {{form.l_name}}
+                  <span
+                    class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-primary-light px-2 py-0.5 text-sm text-quaternary-600 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-sm dark:bg-secondary-dark dark:text-quaternary-300"
+                  >
+                     نام خانوادگی
+                  </span>
+                </label>
+                <p class="h-5 text-sm text-red-500 dark:text-red-400">
+                  <!-- شماره موبایل و یا ایمیل نامعتبر است -->
+                </p>
+              </div>
+              <div class="mb-5">
+                <button class="btn-primary w-full py-3" type="submit">ثبت نام</button>
+              </div>
+              <br>
+              <p
+                class="text-center text-sm text-quaternary-600 dark:text-quaternary-300"
+              >
+              اگر حساب کاربری دارید لطفا وارد حساب خود شوید!
+              </p>
+              <br>
+              <div class="mb-5">
+                <a class="btn-primary w-full py-3" href="{% url "account:user_login" %}">ورود</a>
+              </div>
+            </div>
+          </form>
+      </div>
+    </div>
+{% endblock main %}
