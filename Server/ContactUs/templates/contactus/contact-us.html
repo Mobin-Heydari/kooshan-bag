@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% load static %}
+{% block main %}
+
+<main
+class="flex-grow bg-secondary-light pb-14 pt-36 dark:bg-primary-dark xs:pt-36"
+>
+<div
+  class="container rounded-lg bg-primary-light p-5 dark:bg-secondary-dark"
+>
+  <!-- Head -->
+  <div class="mb-5 flex">
+    <h1
+      class="relative select-none pb-2 text-lg text-quaternary-700 dark:text-primary-light md:text-xl"
+    >
+      تماس با ما
+      <span
+        class="absolute bottom-0 right-0 h-0.5 w-full rounded-full bg-tertiary-500 dark:bg-tertiary-400"
+      ></span>
+    </h1>
+  </div>
+  <form method="post">
+    <div class="grid grid-cols-5 gap-6">
+      {% csrf_token %}
+      <div class="col-span-5 md:col-span-3">
+        <div class="grid grid-cols-2 items-center gap-6">
+          <!-- Name -->
+          <div class="col-span-2 md:col-span-1">
+            <label
+              for="name"
+              class="relative block rounded-lg border border-secondary-light shadow-base dark:border-primary-light/5"
+            >
+              {{ form.name }}
+  
+              <span
+                class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-primary-light px-2 py-0.5 text-sm text-quaternary-600 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-sm dark:bg-secondary-dark dark:text-quaternary-300"
+              >
+                نام شما
+              </span>
+            </label>
+          </div>
+          <!-- Number -->
+          <div class="col-span-2 md:col-span-1">
+            <label
+              for="number"
+              class="relative block rounded-lg border border-secondary-light shadow-base dark:border-primary-light/5"
+            >
+              {{ form.phone }}
+  
+              <span
+                class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-primary-light px-2 py-0.5 text-sm text-quaternary-600 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-sm dark:bg-secondary-dark dark:text-quaternary-300"
+              >
+                شماره تماس شما
+              </span>
+            </label>
+          </div>
+          <!-- Email -->
+          <div class="col-span-2">
+            <label
+              for="email"
+              class="relative block rounded-lg border border-secondary-light shadow-base dark:border-primary-light/5"
+            >
+              {{ form.email }}
+  
+              <span
+                class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-primary-light px-2 py-0.5 text-sm text-quaternary-600 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-sm dark:bg-secondary-dark dark:text-quaternary-300"
+              >
+                ایمیل شما
+              </span>
+            </label>
+          </div>
+          <!-- Message -->
+          <div class="col-span-2">
+            <label
+              for="message"
+              class="relative block rounded-lg border border-secondary-light shadow-base dark:border-primary-light/5"
+            >
+              {{ form.text }}
+              <span
+                class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-primary-light px-2 py-0.5 text-sm text-quaternary-600 transition-all peer-placeholder-shown:top-6 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-sm dark:bg-secondary-dark dark:text-quaternary-300"
+              >
+                پیام شما
+              </span>
+            </label>
+          </div>
+          <!-- Submit -->
+          <div class="col-span-2 flex justify-end">
+            <button class="btn-primary w-full px-4 py-2 md:w-auto" type="submit">
+              ارسال پیام
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="order-first col-span-5 md:order-last md:col-span-2">
+      <ul class="space-y-6">
+        <li>
+          <!-- Email -->
+          <div class="flex flex-col gap-y-4">
+            <p class="text-quaternary-600 dark:text-quaternary-300">
+              آدرس ایمیل
+            </p>
+            {% for email in contacts %}
+              <a
+                href="#"
+                class="text-tertiary-500 dark:text-tertiary-400"
+              >
+                {{ email.email }}
+              </a>
+            {% endfor %}
+        </div>
+        </li>
+
+        <li>
+          <!-- phone -->
+          <div class="flex flex-col gap-y-4">
+            <p class="text-quaternary-600 dark:text-quaternary-300">
+              تلفن پشتیبانی
+            </p>
+            {% for phone in contacts %}
+              <a
+                href="#"
+                class="text-tertiary-500 dark:text-tertiary-400"
+              >
+                {{ phone.phone }}
+              </a>
+            {% endfor %}
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+</main>
+{% endblock main %}
