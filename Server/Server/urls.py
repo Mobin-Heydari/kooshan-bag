@@ -13,5 +13,6 @@ urlpatterns = [
     path('addreses/', include('Addreses.urls', namespace="Addreses")),
     path('orders/', include('Orders.urls', namespace="Orders")),
     path('profiles/', include('Profiles.urls', namespace="Profiles")),
+    path('', include('Home.urls', namespace="Home")),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
