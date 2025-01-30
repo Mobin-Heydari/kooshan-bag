@@ -1,0 +1,241 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+سبد خرید
+{% endblock title %}
+
+{% block main %}
+<div class="flex min-h-screen flex-col">
+      <main
+        class="flex-grow bg-secondary-light pb-14 pt-36 dark:bg-primary-dark xs:pt-36"
+      >
+        <div class="container pb-14">
+          <div class="grid grid-cols-12 gap-2 lg:gap-6">
+            <!-- breadCrumb -->
+            <div
+              class="col-span-12 rounded-lg bg-primary-light dark:bg-secondary-dark"
+            >
+              <ol class="grid grid-cols-3 overflow-hidden rounded-lg">
+                <li
+                  class="flex flex-col items-center justify-center gap-2 bg-tertiary-500/10 p-4 text-xs text-tertiary-500 dark:bg-tertiary-400/10 dark:text-tertiary-400 sm:text-sm md:text-base"
+                >
+                  <svg class="h-6 w-6 md:h-8 md:w-8">
+                    <use xlink:href="#cart" />
+                  </svg>
+                  <p class="leading-none">سبد خرید</p>
+                </li>
+                <li
+                  class="flex flex-col items-center justify-center gap-2 p-4 text-xs text-tertiary-500 opacity-50 dark:text-tertiary-400 sm:text-sm md:text-base"
+                >
+                  <svg class="h-6 w-6 md:h-8 md:w-8">
+                    <use xlink:href="#delivery-truck" />
+                  </svg>
+                  <p class="leading-none">شیوه ارسال</p>
+                </li>
+                <li
+                  class="flex flex-col items-center justify-center gap-2 p-4 text-xs text-tertiary-500 opacity-50 dark:text-tertiary-400 sm:text-sm md:text-base"
+                >
+                  <svg class="h-6 w-6 md:h-8 md:w-8">
+                    <use xlink:href="#credit" />
+                  </svg>
+
+                  <p class="leading-none">پرداخت</p>
+                </li>
+              </ol>
+            </div>
+
+            <!-- Cart List -->
+            <div class="col-span-12 md:col-span-8">
+              <div
+                class="rounded-lg bg-primary-light p-4 dark:bg-secondary-dark"
+              >
+                <!-- Heading -->
+                <div class="flex items-center justify-between gap-x-2 pb-4">
+                  <h1
+                    class="flex items-center gap-x-4 text-sm text-quaternary-700 dark:text-primary-light xs:text-base md:text-lg"
+                  >
+                    سبد خرید
+                    <span
+                      class="text-sm text-quaternary-500 dark:text-quaternary-400"
+                    >
+                      ({{ cart.cart_len }})
+                    </span>
+                  </h1>
+                  <a href="{% url "cart:clear_cart" %}" class="btn-red-nobg px-3 py-2 text-sm">
+                    <span>
+                      <svg class="h-6 w-6">
+                        <use xlink:href="#trash"></use>
+                      </svg>
+                    </span>
+                    <span>حذف همه</span>
+                  </a>
+                </div>
+                <ul
+                  class="divide-y divide-secondary-light dark:divide-primary-light/5"
+                >
+                  <!-- Cart Item-->
+                  {% for item in cart %}
+                    <li>
+                      <div class="py-4 sm:py-6">
+                        <div
+                          class="grid grid-cols-2 items-center justify-start gap-2 xs:grid-cols-3 xs:gap-6 sm:grid-cols-4 xl:grid-cols-6"
+                        >
+                          <!-- Image -->
+                          <div class="relative row-span-2 min-w-fit xs:mx-auto">
+                            <a href=" {% url "products:product_detail" item.product.slug  item.product.id %}">
+                              <img
+                                alt=""
+                                class="w-25 rounded-lg sm:w-28"
+                                src="{{ item.product.image.url }}"
+                              />
+                            </a>
+
+                            <a
+                              class="absolute -right-2 -top-2 flex h-8 w-8 items-center justify-center rounded-full bg-secondary-light dark:bg-primary-dark"
+                              href="{% url "cart:item_remove" item.unique_id %}"
+                            >
+                              <svg class="h-6 w-6 text-red-600 dark:text-red-500">
+                                <use xlink:href="#close"></use>
+                              </svg>
+                            </a>
+                          </div>
+                          <!-- Detail -->
+                          <div
+                            class="row-span-2 space-y-4 xs:col-span-2 sm:col-span-3 xl:col-span-5"
+                          >
+                            <!-- Title -->
+                            <a
+                              class="line-clamp-2 text-sm text-quaternary-700 dark:text-primary-light xs:text-base"
+                              href="{% url "cart:item_remove" item.unique_id %}"
+                            >
+                            {{ item.product.name }}
+                            </a>
+                            <!-- Variant -->
+                            <div class="flex items-center gap-x-2">
+                              <span class="text-xs text-quaternary-600 dark:text-quaternary-300 xs:text-sm"> {{ item.color }} </span>
+                            </div>
+                          </div>
+                          <!-- Quantity -->
+                          <div
+                            class="flex items-center gap-x-2 xs:justify-center"
+                          >
+                            <div>
+                              <span class="font-bold">
+                                {{ item.quantity }}
+                              </span>
+                            </div>
+                          </div>
+                          <!-- Price -->
+                          <div
+                            class="text-tertiary-500 dark:text-tertiary-400 xs:col-span-2 sm:col-span-3 lg:text-lg xl:col-span-5"
+                          >
+                            <span class="font-bold">{{ item.price }}</span>
+                            <span class="text-sm lg:text-base">تومان</span>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+            <!-- Cart Price Detail -->
+            <div class="col-span-12 md:col-span-4">
+              <!-- Desktop -->
+              <div
+                class="hidden rounded-lg bg-primary-light p-4 dark:bg-secondary-dark md:block"
+              >
+                <div
+                  class="mb-2 divide-y divide-secondary-light dark:divide-primary-light/5"
+                >
+                  <!-- cart items price before discount - coupon -->
+                  <div class="flex items-center justify-between gap-x-2 py-6">
+                    <div
+                      class="text-sm text-quaternary-600 dark:text-quaternary-300 lg:text-base"
+                    >
+                      قیمت کل کالا ها ({{ cart.cart_len }})
+                    </div>
+
+                    <div
+                      class="text-sm text-tertiary-500 dark:text-tertiary-400 lg:text-base"
+                    >
+                      <span class="font-bold">{{ cart.get_total_price }}</span>
+                      <span class="text-xs lg:text-sm">تومان</span>
+                    </div>
+                  </div>
+                  <!-- Order final price -->
+                </div>
+                <div>
+                  <a href="{% url "orders:order_create" %}" class="btn-primary py-3">
+                    ادامه فرایند خرید
+                  </a>
+                </div>
+              </div>
+              <!-- Mobile -->
+              <div
+                class="fixed inset-x-0 bottom-0 flex items-center gap-x-6 rounded-t-2xl bg-primary-light p-4 dark:bg-secondary-dark md:hidden"
+              >
+                <a
+                  class="btn-primary flex-grow py-3"
+                  href="{% url "orders:order_create" %}"
+                >
+                  ادامه فرایند خرید</a
+                >
+                <div class="flex flex-col items-center gap-y-1">
+                  <div
+                    class="text-sm text-quaternary-500 dark:text-quaternary-400"
+                  >
+                    مبلغ قابل پرداخت
+                  </div>
+                  <div class="text-quaternary-600 dark:text-quaternary-300">
+                    <span class="font-bold">{{ cart.get_total_price  }}</span>
+                    <span class="text-sm">تومان</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    {% block scripts %}
+      <script>
+        // <![CDATA[  <-- For SVG support
+        if ('WebSocket' in window) {
+          (function () {
+            function refreshCSS() {
+              var sheets = [].slice.call(document.getElementsByTagName("link"));
+              var head = document.getElementsByTagName("head")[0];
+              for (var i = 0; i < sheets.length; ++i) {
+                var elem = sheets[i];
+                var parent = elem.parentElement || head;
+                parent.removeChild(elem);
+                var rel = elem.rel;
+                if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+                  var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+                  elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+                }
+                parent.appendChild(elem);
+              }
+            }
+            var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+            var address = protocol + window.location.host + window.location.pathname + '/ws';
+            var socket = new WebSocket(address);
+            socket.onmessage = function (msg) {
+              if (msg.data == 'reload') window.location.reload();
+              else if (msg.data == 'refreshcss') refreshCSS();
+            };
+            if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+              console.log('Live reload enabled.');
+              sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+            }
+          })();
+        }
+        else {
+          console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+        }
+        // ]]>
+      </script>
+    {% endblock scripts %}
+{% endblock main %}
