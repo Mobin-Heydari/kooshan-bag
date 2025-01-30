@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'Addreses.apps.AddresesConfig',
     'Profiles.apps.ProfilesConfig',
     'Orders.apps.OrdersConfig',
+    'Home.apps.HomeConfig',
 ]
 
 MIDDLEWARE = [
