@@ -1,0 +1,523 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}جزئیات سفارش {{ order.id }}{% endblock %}
+
+
+{% block main %}
+      <main
+        class="flex-grow bg-secondary-light pb-14 pt-36 dark:bg-primary-dark xs:pt-36"
+      >
+        <div class="container">
+          <div class="grid grid-cols-12 gap-4">
+            <!-- sidebar -->
+            <div class="col-span-12 lg:col-span-3">
+              <!-- Desktop sidebar -->
+              <div
+                class="sticky top-32 hidden w-full overflow-hidden rounded-lg bg-primary-light shadow-base dark:bg-secondary-dark lg:block"
+              >
+                <div
+                  dir="ltr"
+                  class="max-h-[calc(90vh_-_100px)] overflow-y-auto p-4 xl:p-6"
+                >
+                  <div dir="rtl">
+                    <!-- Head -->
+                    <div
+                      class="mb-2 flex items-center justify-between border-b border-senary-200 pb-6 dark:border-primary-light/10"
+                    >
+                      <div class="flex items-center gap-x-4">
+                        <div class="flex flex-col">
+                          <div
+                            class="line-clamp-1 text-quaternary-700 dark:text-primary-light"
+                          >
+                          {{ user.f_name }} {{ user.l_name }}
+                          </div>
+                          <div
+                            class="line-clamp-1 text-quaternary-600 dark:text-quaternary-300"
+                          >
+                            {{ user.phone }}
+                          </div>
+                        </div>
+                      </div>
+                      <a href="./profile-edit.html">
+                        <svg
+                          class="h-6 w-6 text-tertiary-500 dark:text-tertiary-400"
+                        >
+                          <use xlink:href="#edit" />
+                        </svg>
+                      </a>
+                    </div>
+
+                    <ul class="space-y-1">
+                      <li>
+                        <a
+                          href="{% url "profiles:profile_dashboard" %}"
+                          class="profile-menu flex items-center justify-between rounded-lg px-2 py-4 xl:px-4"
+                        >
+                          <div class="flex items-center gap-x-4">
+                            <svg class="h-6 w-6">
+                              <use xlink:href="#home" />
+                            </svg>
+                            <div>پیشخوان</div>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="{% url "profiles:profile_orders" %}"
+                          class="profile-menu profile-menu-active flex items-center justify-between rounded-lg px-2 py-4 xl:px-4"
+                        >
+                          <div class="flex items-center gap-x-4">
+                            <svg class="h-6 w-6">
+                              <use xlink:href="#order" />
+                            </svg>
+                            <div>سفارش ها</div>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="{% url "addreses:user_addreses" %}"
+                          class="profile-menu flex items-center justify-between rounded-lg px-2 py-4 xl:px-4"
+                        >
+                          <div class="flex items-center gap-x-4">
+                            <svg class="h-6 w-6">
+                              <use xlink:href="#address" />
+                            </svg>
+                            <div>آدرس ها</div>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="flex items-center justify-between rounded-lg p-4 text-red-500 hover:bg-red-500/10 dark:text-red-400 dark:hover:bg-red-400/10"
+                          href="{% url "account:user_logout" %}"
+                        >
+                          <div class="flex items-center gap-x-2">
+                            <svg class="h-6 w-6">
+                              <use xlink:href="#exit"></use>
+                            </svg>
+                            <span> خروج </span>
+                          </div>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <!-- Mobile menu -->
+              <div
+                class="rounded-lg bg-primary-light p-6 shadow-base dark:bg-secondary-dark lg:hidden"
+              >
+                <div class="flex items-center justify-center">
+                  <div
+                    class="flex flex-col items-center justify-center gap-y-4"
+                  >
+                    <div>
+                      <p
+                        class="line-clamp-1 text-quaternary-700 dark:text-primary-light"
+                      >
+                      {{ user.f_name }} {{ user.l_name }}
+                      </p>
+                      <p class="text-quaternary-500 dark:text-quaternary-400">
+                        {{ user.phone }}
+                      </p>
+                    </div>
+                    <div>
+                      <button
+                        class="btn-primary px-4 py-2"
+                        aria-controls="profile-menu-drawer-navigation"
+                        data-drawer-show="profile-menu-drawer-navigation"
+                        data-drawer-placement="bottom"
+                        data-drawer-target="profile-menu-drawer-navigation"
+                        type="button"
+                      >
+                        <svg class="h-6 w-6 text-primary-light">
+                          <use xlink:href="#menu" />
+                        </svg>
+                        منوی پنل کاربری
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- content -->
+            <div class="col-span-12 lg:col-span-9">
+              <div
+                class="rounded-lg bg-primary-light p-5 shadow-base dark:bg-secondary-dark"
+              >
+                <div
+                  class="mb-16 flex flex-col items-center justify-between gap-y-8 xs:flex-row"
+                >
+                  <!-- Title -->
+                  <h1
+                    class="relative w-fit text-xl font-medium text-quaternary-700 dark:text-primary-light"
+                  >
+                    جزئیات سفارش {{ order.id }}#
+                    <span
+                      class="absolute right-0 top-10 h-[3px] w-full rounded-full bg-tertiary-500 dark:bg-tertiary-400"
+                    >
+                    </span>
+                  </h1>
+
+                  <a
+                    href="{% url "profiles:profile_orders" %}"
+                    class="btn-secondary w-full px-4 py-2 xs:w-fit"
+                  >
+                    برگشت
+                    <svg class="h-5 w-5">
+                      <use xlink:href="#chevron-left" />
+                    </svg>
+                  </a>
+                </div>
+
+                <div class="mb-8">
+                  <div
+                    class="rounded-lg border border-secondary-light shadow-base dark:border-primary-light/5"
+                  >
+                    <div class="p-4">
+                      <!-- head -->
+                      {% if order.paid == True %}
+                        <div class="flex items-center justify-between pb-6">
+                          <div
+                            class="flex items-center gap-x-2 text-tertiary-500 dark:text-tertiary-400"
+                          >
+                            <svg class="h-6 w-6">
+                              <use xlink:href="#outline-check"></use>
+                            </svg>
+                            <p class="font-medium md:text-lg">پرداخت شده</p>
+                          </div>
+                        </div>
+                      {% else %}
+                        <div
+                          class="flex flex-col items-center justify-between gap-4 pb-6 xs:flex-row"
+                        >
+                          <div
+                            class="flex items-center gap-x-2 text-yellow-500 dark:text-yellow-400"
+                          >
+                            <svg class="h-6 w-6">
+                              <use xlink:href="#warning"></use>
+                            </svg>
+                            <p class="font-medium md:text-lg">در انتظار پرداخت</p>
+                          </div>
+
+                          <a
+                            href="{% url "payment:zarinpal_send_request" order.id %}"
+                            class="btn-primary w-full px-4 py-2 text-sm xs:w-32 xs:text-base"
+                          >
+                            پرداخت مجدد
+                          </a>
+                        </div>
+                      {% endif %}
+
+                      <!-- conent -->
+                      <div
+                        class="flex flex-col gap-6 pb-6 xl:flex-row xl:justify-between xl:gap-16"
+                      >
+                        <div class="flex flex-col gap-4 md:flex-row flex-wrap">
+                          <div
+                            class="flex items-center justify-between gap-x-2 md:justify-start"
+                          >
+                            <div
+                              class="text-sm text-quaternary-500 dark:text-quaternary-400 md:text-base"
+                            >
+                              کد پیگیری سفارش
+                            </div>
+                            <div
+                              class="text-sm text-quaternary-600 dark:text-quaternary-300 md:text-base"
+                            >
+                              {{ order.order_code }}
+                            </div>
+                          </div>
+                          <div
+                            class="flex items-center justify-between gap-x-2 md:justify-start"
+                          >
+                            <div
+                              class="text-sm text-quaternary-500 dark:text-quaternary-400 md:text-base"
+                            >
+                              مبلغ کل
+                            </div>
+                            <div
+                              class="text-tertiary-500 dark:text-tertiary-400"
+                            >
+                              <span class="font-bold md:text-lg"
+                                >{{ order.total_price }}</span
+                              >
+                              <span class="text-sm md:text-base">تومان</span>
+                            </div>
+                          </div>
+                          <div
+                            class="flex items-center justify-between gap-x-2 md:justify-start"
+                          >
+                            <div
+                              class="text-sm text-quaternary-500 dark:text-quaternary-400 md:text-base"
+                            >
+                              تاریخ
+                            </div>
+                            <div
+                              class="text-sm text-quaternary-600 dark:text-quaternary-300 md:text-base"
+                            >
+                              {{ order.date }}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-8">
+                  <div
+                    class="rounded-lg border border-secondary-light p-4 shadow-base dark:border-primary-light/5"
+                  >
+                    <div class="flex flex-col gap-4 md:flex-row flex-wrap">
+                      <div
+                        class="flex justify-between gap-x-2 lg:justify-start"
+                      >
+                        <div
+                          class="text-sm text-quaternary-500 dark:text-quaternary-400 md:text-base"
+                        >
+                          روش ارسال
+                        </div>
+                        <div
+                          class="text-sm text-quaternary-600 dark:text-quaternary-300 md:text-base"
+                        >
+                          پست
+                        </div>
+                      </div>
+                      <div class="mb-6 flex flex-col gap-4 md:flex-row flex-wrap">
+                      
+                      </div>
+                      <div
+                        class="flex justify-between gap-x-2 lg:justify-start"
+                      >
+                        <div
+                          class="text-sm text-quaternary-500 dark:text-quaternary-400 md:text-base"
+                        >
+                          هزینه ارسال
+                        </div>
+                        <div class="text-tertiary-500 dark:text-tertiary-400">
+                          <span class="font-bold md:text-lg">رایگان</span>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-8">
+                  <h2
+                    class="mb-8 flex items-center gap-x-4 text-lg text-quaternary-600 dark:text-quaternary-300"
+                  >
+                    <span
+                      class="h-2 w-2 rounded-full bg-tertiary-500 dark:bg-tertiary-400"
+                    ></span>
+                    آدرس تحویل سفارش
+                  </h2>
+                  <div
+                    class="block rounded-lg border border-secondary-light p-4 shadow-base hover:border-gray-200 dark:border-primary-light/5 dark:hover:border-primary-light/10"
+                  >
+                    <div
+                      class="mb-4 flex items-center justify-between gap-x-2 sm:mb-2"
+                    >
+                      <p
+                        class="line-clamp-2 h-10 text-sm text-quaternary-600 dark:text-quaternary-300 xs:text-base sm:line-clamp-1 sm:h-6"
+                      >
+                      {{ order.address }}
+                      </p>
+                    </div>
+
+                    <div class="flex items-center justify-between gap-x-2">
+                      <p
+                        class="line-clamp-1 text-sm text-quaternary-500 dark:text-quaternary-400"
+                      >
+                        {{ order.city }} {{ order.state }}
+                      </p>
+                      
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-8">
+                  <h2
+                    class="mb-8 flex items-center gap-x-4 text-lg text-quaternary-600 dark:text-quaternary-300"
+                  >
+                    <span
+                      class="h-2 w-2 rounded-full bg-tertiary-500 dark:bg-tertiary-400"
+                    ></span>
+                    اقلام سفارش
+                    <span
+                      class="text-sm text-quaternary-500 dark:text-quaternary-400"
+                    >
+                    </span>
+                  </h2>
+                  <ul
+                    class="divide-y divide-secondary-light dark:divide-primary-light/5"
+                  >
+                    {% for order in order.order.all %}
+                    
+                      <!-- Cart Item-->
+                      <li>
+                        <div class="py-4 sm:py-6">
+                          <div
+                            class="grid grid-cols-2 items-center justify-start gap-2 xs:grid-cols-3 xs:gap-6 sm:grid-cols-4 xl:grid-cols-6"
+                          >
+                            <!-- Image -->
+                            <div class="row-span-2 min-w-fit xs:mx-auto">
+                              <a href="{% url "products:product_detail" order.product.slug order.product.id %}">
+                                <img
+                                  alt=""
+                                  class="w-25 rounded-lg sm:w-28"
+                                  src="{{ order.product.image.url }}"
+                                />
+                              </a>
+                            </div>
+                            <!-- Detail -->
+                            <div
+                              class="row-span-2 space-y-4 xs:col-span-2 sm:col-span-3 xl:col-span-5"
+                            >
+                              <!-- Title -->
+                              <a
+                                class="line-clamp-2 text-sm text-quaternary-700 dark:text-primary-light md:text-base"
+                                href="{% url "products:product_detail" order.product.slug order.product.id %}"
+                              >
+                                کیف دستی دلسی مدل CHATELET AIR 2.0 کد 1676350
+                              </a>
+                              <!-- Variant -->
+                              <div class="flex items-center gap-x-2">
+                                <span
+                                  class="text-xs text-quaternary-600 dark:text-quaternary-300 xs:text-sm"
+                                >
+                                {{ order.color }}
+                                </span>
+                              </div>
+                              <div class="flex gap-4 xs:flex-col">
+                                <div class="flex items-center gap-x-2">
+                                  <div
+                                    class="text-sm text-quaternary-600 dark:text-quaternary-300 xs:text-base"
+                                  >
+                                    قیمت
+                                  </div>
+                                  <div
+                                    class="text-sm text-quaternary-600 dark:text-quaternary-300 xs:text-base"
+                                  >
+                                    {{ order.product.price }} تومان
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- Quantity -->
+                            <div
+                              class="flex items-center gap-x-2 xs:justify-center"
+                            >
+                              <div
+                                class="flex h-10 w-24 items-center justify-center gap-x-3 rounded-lg border border-secondary-light px-4 py-1 dark:border-primary-light/5 sm:w-28"
+                              >
+                                <div
+                                  class="flex h-5 w-5 select-none items-center justify-center text-sm font-medium text-quaternary-700 dark:text-primary-light sm:h-6 sm:w-6 sm:text-lg"
+                                >
+                                  {{ order.quantity }}
+                                </div>
+                              </div>
+                            </div>
+                            <!-- Price -->
+                            <div
+                              class="text-tertiary-500 dark:text-tertiary-400 xs:col-span-2 sm:col-span-3 lg:text-lg xl:col-span-5"
+                            >
+                              <span class="font-bold">{{ order.price }}</span>
+                              <span class="text-sm lg:text-base">تومان</span>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+        <div
+        aria-labelledby="profile-menu-drawer-navigation-label"
+        class="fixed bottom-0 left-0 right-0 z-40 w-full translate-y-full rounded-t-3xl bg-primary-light transition-transform duration-300 dark:bg-secondary-dark"
+        id="profile-menu-drawer-navigation"
+        tabindex="-1"
+        >
+        <div
+          class="flex items-center justify-between gap-x-4 border-b border-secondary-light p-4 pb-5 dark:border-primary-light/5"
+        >
+          <h5 class="text-lg text-quaternary-600 dark:text-quaternary-300">
+            منوی پنل کاربری
+          </h5>
+          <button
+            aria-controls="user-account-drawer-navigation"
+            class="inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-quaternary-600 hover:bg-quaternary-100 hover:text-senary-900 dark:text-quaternary-300 dark:hover:bg-primary-dark dark:hover:text-primary-light"
+            data-drawer-hide="profile-menu-drawer-navigation"
+            type="button"
+          >
+            <svg class="h-5 w-5">
+              <use xlink:href="#close" />
+            </svg>
+
+            <span class="sr-only">Close menu</span>
+          </button>
+        </div>
+        <div class="p-4">
+          <ul class="space-y-1">
+            <li>
+              <a
+                href="{% url "profiles:profile_dashboard" %}"
+                class="profile-menu flex items-center justify-between rounded-lg px-2 py-4 xl:px-4"
+              >
+                <div class="flex items-center gap-x-4">
+                  <svg class="h-6 w-6">
+                    <use xlink:href="#home" />
+                  </svg>
+                  <div>پیشخوان</div>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a
+                href="{% url "profiles:profile_orders" %}l"
+                class="profile-menu profile-menu-active flex items-center justify-between rounded-lg px-2 py-4 xl:px-4"
+              >
+                <div class="flex items-center gap-x-4">
+                  <svg class="h-6 w-6">
+                    <use xlink:href="#order" />
+                  </svg>
+                  <div>سفارش ها</div>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a
+                href="{% url "addreses:user_addreses" %}"
+                class="profile-menu flex items-center justify-between rounded-lg px-2 py-4 xl:px-4"
+              >
+                <div class="flex items-center gap-x-4">
+                  <svg class="h-6 w-6">
+                    <use xlink:href="#address" />
+                  </svg>
+                  <div>آدرس ها</div>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a
+                class="flex items-center justify-between rounded-lg p-4 text-red-500 hover:bg-red-500/10 dark:text-red-400 dark:hover:bg-red-400/10"
+                href="{% url "account:user_logout" %}"
+              >
+                <div class="flex items-center gap-x-2">
+                  <svg class="h-6 w-6">
+                    <use xlink:href="#exit"></use>
+                  </svg>
+                  <span> خروج </span>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+        </div>
+      <main>
+{% endblock main %}

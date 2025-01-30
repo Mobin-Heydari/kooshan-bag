@@ -1,0 +1,279 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}پنل کاربری شما{% endblock %}
+
+{% block main %}
+    <main
+    class="flex-grow bg-secondary-light pb-14 pt-36 dark:bg-primary-dark xs:pt-36"
+    >
+        <div class="container">
+          <div class="grid grid-cols-12 gap-4">
+            <!-- sidebar -->
+            <div class="col-span-12 lg:col-span-3">
+              <!-- Desktop sidebar -->
+              <div
+                class="sticky top-32 hidden w-full overflow-hidden rounded-lg bg-primary-light shadow-base dark:bg-secondary-dark lg:block"
+              >
+                <div
+                  dir="ltr"
+                  class="max-h-[calc(90vh_-_100px)] overflow-y-auto p-4 xl:p-6"
+                >
+                  <div dir="rtl">
+                    <!-- Head -->
+                    <div
+                      class="mb-2 flex items-center justify-between border-b border-senary-200 pb-6 dark:border-primary-light/10"
+                    >
+                      <div class="flex items-center gap-x-4">
+                        <div class="flex flex-col">
+                          <div
+                            class="line-clamp-1 text-quaternary-700 dark:text-primary-light"
+                          >
+                          {{ user.f_name }} {{ user.l_name }}
+                          </div>
+                          <div
+                            class="line-clamp-1 text-quaternary-600 dark:text-quaternary-300"
+                          >
+                            {{ user.phone }}
+                          </div>
+                        </div>
+                      </div>
+                      <a href="./profile-edit.html">
+                        <svg
+                          class="h-6 w-6 text-tertiary-500 dark:text-tertiary-400"
+                        >
+                          <use xlink:href="#edit" />
+                        </svg>
+                      </a>
+                    </div>
+
+                    <ul class="space-y-1">
+                      <li>
+                        <a
+                          href="{% url "profiles:profile_dashboard" %}"
+                          class="profile-menu profile-menu-active flex items-center justify-between rounded-lg px-2 py-4 xl:px-4"
+                        >
+                          <div class="flex items-center gap-x-4">
+                            <svg class="h-6 w-6">
+                              <use xlink:href="#home" />
+                            </svg>
+                            <div>پیشخوان</div>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="{% url "profiles:profile_orders" %}"
+                          class="profile-menu flex items-center justify-between rounded-lg px-2 py-4 xl:px-4"
+                        >
+                          <div class="flex items-center gap-x-4">
+                            <svg class="h-6 w-6">
+                              <use xlink:href="#order" />
+                            </svg>
+                            <div>سفارش ها</div>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="{% url "addreses:user_addreses" %}"
+                          class="profile-menu flex items-center justify-between rounded-lg px-2 py-4 xl:px-4"
+                        >
+                          <div class="flex items-center gap-x-4">
+                            <svg class="h-6 w-6">
+                              <use xlink:href="#address" />
+                            </svg>
+                            <div>آدرس ها</div>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="flex items-center justify-between rounded-lg p-4 text-red-500 hover:bg-red-500/10 dark:text-red-400 dark:hover:bg-red-400/10"
+                          href="{% url "account:user_logout" %}"
+                        >
+                          <div class="flex items-center gap-x-2">
+                            <svg class="h-6 w-6">
+                              <use xlink:href="#exit"></use>
+                            </svg>
+                            <span> خروج </span>
+                          </div>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <!-- Mobile menu -->
+              <div
+                class="rounded-lg bg-primary-light p-6 shadow-base dark:bg-secondary-dark lg:hidden"
+              >
+                <div class="flex items-center justify-center">
+                  <div
+                    class="flex flex-col items-center justify-center gap-y-4"
+                  >
+                    <div>
+                      <p
+                        class="line-clamp-1 text-quaternary-700 dark:text-primary-light"
+                      >
+                      {{ user.f_name }} {{ user.l_name }}
+                      </p>
+                      <p class="text-quaternary-500 dark:text-quaternary-400">
+                        {{ user.phone }}
+                      </p>
+                    </div>
+                    <div>
+                      <button
+                        class="btn-primary px-4 py-2"
+                        aria-controls="profile-menu-drawer-navigation"
+                        data-drawer-show="profile-menu-drawer-navigation"
+                        data-drawer-placement="bottom"
+                        data-drawer-target="profile-menu-drawer-navigation"
+                        type="button"
+                      >
+                        <svg class="h-6 w-6 text-primary-light">
+                          <use xlink:href="#menu" />
+                        </svg>
+                        منوی پنل کاربری
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- content -->
+            <div class="col-span-12 lg:col-span-9">
+              <div
+                class="rounded-lg bg-primary-light p-5 shadow-base dark:bg-secondary-dark"
+              >
+                <!-- Title -->
+                <h1
+                  class="relative mb-16 w-fit text-xl font-medium text-quaternary-700 dark:text-primary-light"
+                >
+                  پیشخوان
+                  <span
+                    class="absolute right-0 top-10 h-[3px] w-full rounded-full bg-tertiary-500 dark:bg-tertiary-400"
+                  >
+                  </span>
+                </h1>
+                
+                <div class="mb-8">
+                  <div
+                    class="mb-8 flex flex-wrap items-center justify-between gap-4"
+                  >
+                    <h3
+                      class="flex items-center gap-x-4 text-lg text-quaternary-600 dark:text-quaternary-300"
+                    >
+                      <span
+                        class="h-2 w-2 rounded-full bg-tertiary-500 dark:bg-tertiary-400"
+                      ></span>
+                       سفارش های شما
+                    </h3>
+                    <a
+                      class="btn-primary-nobg text-base"
+                      href="{% url "profiles:profile_orders" %}"
+                    >
+                      مشاهده همه
+                      <span>
+                        <svg class="h-5 w-5 lg:h-6 lg:w-6">
+                          <use xlink:href="#chevron-left"></use>
+                        </svg>
+                      </span>
+                    </a>
+                  </div>
+
+                  <div class="grid grid-cols-2 gap-4 md:gap-6 xl:grid-cols-4">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </main>
+
+      <!-- Mobile Profile Menu Drawer -->
+      <div
+        aria-labelledby="profile-menu-drawer-navigation-label"
+        class="fixed bottom-0 left-0 right-0 z-40 w-full translate-y-full rounded-t-3xl bg-primary-light transition-transform duration-300 dark:bg-secondary-dark"
+        id="profile-menu-drawer-navigation"
+        tabindex="-1"
+      >
+        <div
+          class="flex items-center justify-between gap-x-4 border-b border-secondary-light p-4 pb-5 dark:border-primary-light/5"
+        >
+          <h5 class="text-lg text-quaternary-600 dark:text-quaternary-300">
+            منوی پنل کاربری
+          </h5>
+          <button
+            aria-controls="user-account-drawer-navigation"
+            class="inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-quaternary-600 hover:bg-quaternary-100 hover:text-senary-900 dark:text-quaternary-300 dark:hover:bg-primary-dark dark:hover:text-primary-light"
+            data-drawer-hide="profile-menu-drawer-navigation"
+            type="button"
+          >
+            <svg class="h-5 w-5">
+              <use xlink:href="#close" />
+            </svg>
+
+            <span class="sr-only">Close menu</span>
+          </button>
+        </div>
+        <div class="p-4">
+          <ul class="space-y-1">
+            <li>
+              <a
+                href="./profile-dashboard.html"
+                class="profile-menu profile-menu-active flex items-center justify-between rounded-lg px-2 py-4 xl:px-4"
+              >
+                <div class="flex items-center gap-x-4">
+                  <svg class="h-6 w-6">
+                    <use xlink:href="#home" />
+                  </svg>
+                  <div>پیشخوان</div>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a
+                href="{% url "profiles:profile_orders" %}"
+                class="profile-menu flex items-center justify-between rounded-lg px-2 py-4 xl:px-4"
+              >
+                <div class="flex items-center gap-x-4">
+                  <svg class="h-6 w-6">
+                    <use xlink:href="#order" />
+                  </svg>
+                  <div>سفارش ها</div>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a
+                href="{% url "addreses:user_addreses" %}"
+                class="profile-menu flex items-center justify-between rounded-lg px-2 py-4 xl:px-4"
+              >
+                <div class="flex items-center gap-x-4">
+                  <svg class="h-6 w-6">
+                    <use xlink:href="#address" />
+                  </svg>
+                  <div>آدرس ها</div>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a
+                class="flex items-center justify-between rounded-lg p-4 text-red-500 hover:bg-red-500/10 dark:text-red-400 dark:hover:bg-red-400/10"
+                href="{% url "account:user_logout" %}"
+              >
+                <div class="flex items-center gap-x-2">
+                  <svg class="h-6 w-6">
+                    <use xlink:href="#exit"></use>
+                  </svg>
+                  <span> خروج </span>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    <main>
+{% endblock main %}
