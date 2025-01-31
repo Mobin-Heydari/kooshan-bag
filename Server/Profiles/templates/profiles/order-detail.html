@@ -77,7 +77,7 @@
                       </li>
                       <li>
                         <a
-                          href="{% url "addreses:user_addreses" %}"
+                          href="{% url "Addreses:user_addreses" %}"
                           class="profile-menu flex items-center justify-between rounded-lg px-2 py-4 xl:px-4"
                         >
                           <div class="flex items-center gap-x-4">
@@ -204,7 +204,7 @@
                           </div>
 
                           <a
-                            href="{% url "payment:zarinpal_send_request" order.id %}"
+                            {% comment %} href="{% url "payment:zarinpal_send_request" order.id %}" {% endcomment %}
                             class="btn-primary w-full px-4 py-2 text-sm xs:w-32 xs:text-base"
                           >
                             پرداخت مجدد
@@ -363,7 +363,7 @@
                           >
                             <!-- Image -->
                             <div class="row-span-2 min-w-fit xs:mx-auto">
-                              <a href="{% url "products:product_detail" order.product.slug order.product.id %}">
+                              <a href="{% url "products:product_detail" order.product.slug %}">
                                 <img
                                   alt=""
                                   class="w-25 rounded-lg sm:w-28"
@@ -378,7 +378,7 @@
                               <!-- Title -->
                               <a
                                 class="line-clamp-2 text-sm text-quaternary-700 dark:text-primary-light md:text-base"
-                                href="{% url "products:product_detail" order.product.slug order.product.id %}"
+                                href="{% url "products:product_detail" order.product.slug %}"
                               >
                                 کیف دستی دلسی مدل CHATELET AIR 2.0 کد 1676350
                               </a>
@@ -492,7 +492,7 @@
             </li>
             <li>
               <a
-                href="{% url "addreses:user_addreses" %}"
+                href="{% url "Addreses:user_addreses" %}"
                 class="profile-menu flex items-center justify-between rounded-lg px-2 py-4 xl:px-4"
               >
                 <div class="flex items-center gap-x-4">

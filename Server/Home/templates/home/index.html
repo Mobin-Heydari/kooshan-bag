@@ -116,7 +116,7 @@
                       >
                         <!-- image -->
                         <div class="mb-2 md:mb-5" draggable="false">
-                          <a href="{% url "products:product_detail" product.slug product.id %}">
+                          <a href="{% url "products:product_detail" product.slug %}">
                             <img
                               alt=""
                               class="mx-auto w-32 rounded-lg md:w-auto"
@@ -128,7 +128,7 @@
                         <div class="mb-2">
                           <a
                             class="line-clamp-2 h-10 text-sm text-quaternary-700 dark:text-primary-light md:h-12 md:text-base"
-                            href="{% url "products:product_detail" product.slug product.id %}"
+                            href="{% url "products:product_detail" product.slug %}"
                           >
                           {{ product.name }}
                           </a>
@@ -255,7 +255,7 @@
                       >
                         <!-- image -->
                         <div class="mb-2 md:mb-5" draggable="false">
-                          <a href="{% url "products:product_detail" product.slug product.id %}">
+                          <a href="{% url "products:product_detail" product.slug %}">
                             <img
                               alt=""
                               class="mx-auto w-32 rounded-lg md:w-auto"
@@ -267,7 +267,7 @@
                         <div class="mb-2">
                           <a
                             class="line-clamp-2 h-10 text-sm text-quaternary-700 dark:text-primary-light md:h-12 md:text-base"
-                            href="{% url "products:product_detail" product.slug product.id %}"
+                            href="{% url "products:product_detail" product.slug %}"
                           >
                           {{ product.name }}
                           </a>

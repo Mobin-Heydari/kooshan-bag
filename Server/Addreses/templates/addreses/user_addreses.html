@@ -74,7 +74,7 @@
                       </li>
                       <li>
                         <a
-                          href="{% url "addreses:user_addreses" %}"
+                          href="{% url "Addreses:user_addreses" %}"
                           class="profile-menu profile-menu-active flex items-center justify-between rounded-lg px-2 py-4 xl:px-4"
                         >
                           <div class="flex items-center gap-x-4">
@@ -198,7 +198,7 @@
     
                           <div class="hidden md:block">
                               <a
-                                href="{% url "addres:delete_address" address.pk %}"
+                                href="{% url "Addreses:delete_address" address.pk %}"
                                 class="flex w-full items-center justify-between rounded-lg px-4 py-3 text-red-500 hover:bg-red-500/10 dark:text-red-400 dark:hover:bg-red-400/10"
                               >
                                 <div class="flex items-center gap-x-2">
@@ -219,7 +219,7 @@
                           </p>
                           <div class="flex items-center gap-x-2 md:hidden">
                             <a
-                              href="{% url "addres:delete_address" address.pk%}"
+                              href="{% url "Addreses:delete_address" address.pk%}"
                               class="btn-red-nobg px-3 py-1 text-sm xs:px-4 xs:py-2"
                             >
                               حذف
@@ -334,7 +334,7 @@
         </li>
         <li>
           <a
-            href="{% url "addreses:user_addreses" %}"
+            href="{% url "Addreses:user_addreses" %}"
             class="profile-menu profile-menu-active flex items-center justify-between rounded-lg px-2 py-4 xl:px-4"
           >
             <div class="flex items-center gap-x-4">
@@ -394,7 +394,7 @@
                 </button>
               </div>
             </div>
-            <form action="{% url "addres:add_new_addres" %}" method="post">
+            <form action="{% url "Addreses:add_new_addres" %}" method="post">
               <div class="space-y-6 px-4 py-5 sm:p-6">
                 <div class="grid grid-cols-2 gap-x-4 gap-y-5 sm:gap-6">
                   <!-- Receiver name -->

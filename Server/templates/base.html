@@ -1,6 +1,5 @@
 {% load static %}
 
-
 <!doctype html>
 <html dir="rtl" lang="fa">
   <head>
@@ -968,7 +967,7 @@
               >
                 <!-- logo -->
                 <div>
-                  <a href="/">
+                  <a href="{% url "home:home" %}">
                     <img
                       alt=""
                       class="w-44 text-red-700"
@@ -992,7 +991,7 @@
                         </svg>
                       </button>
                     {% else %}
-                      <a href="/">
+                      <a href="{% url "account:user_login" %}">
                         <div
                           class="flex h-8 cursor-pointer items-center justify-center rounded-lg border border-secondary-light px-4 text-sm font-medium text-quaternary-700 transition-colors duration-200 hover:bg-tertiary-500 hover:text-primary-light dark:border-primary-light/5 dark:text-primary-light dark:hover:bg-tertiary-500 dark:hover:text-primary-light"
                         >
@@ -1008,7 +1007,7 @@
                         <li>
                           <a
                             class="flex items-center justify-between gap-x-2 rounded-lg p-4 text-quaternary-700 hover:text-tertiary-500 dark:text-primary-light dark:hover:text-tertiary-400"
-                            href=""
+                            href="{% url "profiles:profile_dashboard" %}"
                           >
                             <span class="flex items-center gap-x-4">
                               <span class="min-w-fit">
@@ -1026,7 +1025,7 @@
                         <li>
                           <a
                             class="flex items-center justify-between rounded-lg p-4 text-quaternary-700 hover:text-tertiary-500 dark:text-primary-light dark:hover:text-tertiary-400"
-                            href="/"
+                            href="{% url "profiles:profile_orders" %}"
                           >
                             <span class="flex items-center gap-x-2">
                               <svg class="h-6 w-6">
@@ -1044,7 +1043,7 @@
                         <li>
                           <a
                             class="flex items-center justify-between rounded-lg p-4 text-red-500 hover:bg-red-500/10 dark:text-red-400 dark:hover:bg-red-400/10"
-                            href="/"
+                            href="{% url "account:user_logout" %}"
                           >
                             <div class="flex items-center gap-x-2">
                               <svg class="h-6 w-6">
@@ -1074,7 +1073,7 @@
                       <span
                         class="absolute -right-2.5 -top-2.5 flex h-5 w-5 cursor-pointer items-center justify-center rounded-full bg-tertiary-500 text-sm font-bold text-primary-light"
                       >
-                        {% comment %} {{ cart.cart_len }} {% endcomment %}
+                        {{ cart.cart_len }}
                       </span>
                     </button>
 
@@ -1087,11 +1086,11 @@
                         <div
                           class="text-sm text-quaternary-600 dark:text-quaternary-300"
                         >
-                          {% comment %} {{ cart.cart_len }} مورد {% endcomment %}
+                          {{ cart.cart_len }} مورد
                         </div>
                         <a
                           class="flex items-center gap-x-1 text-sm text-tertiary-500 dark:text-tertiary-400"
-                          href=""
+                          href="{% url "cart:cart_detail" %}"
                         >
                           <div>مشاهده سبد خرید</div>
                           <div>
@@ -1137,7 +1136,7 @@
 
                                 <a
                                   class="line-clamp-2 h-12 text-quaternary-700 dark:text-primary-light"
-                                  href="{% url "products:product_detail" item.product.slug item.product.id %}"
+                                  href="{% url "products:product_detail" item.product.slug %}"
                                 >
                                   {{ item.product.name }}
                                 </a>
@@ -1192,7 +1191,7 @@
                             <span class="text-sm">تومان</span>
                           </div>
                         </div>
-                        <a href="">
+                        <a href="{% url "orders:order_create" %}">
                           <button
                             class="btn-primary w-32 py-3 text-sm"
                             type="button"
@@ -1354,7 +1353,7 @@
                           <li>
                             <a
                               class="hover:dark: flex rounded-lg px-4 py-3 text-quaternary-700 hover:text-tertiary-500 dark:text-primary-light hover:dark:text-tertiary-400"
-                              href=""
+                              href="{% url "contactus:contactus" %}"
                             >
                               تماس با ما
                             </a>
@@ -1394,7 +1393,7 @@
 
                 <!-- logo -->
                 <div>
-                  <a href="">
+                  <a href="{% url "home:home" %}">
                     <img
                       alt=""
                       class="h-6 w-full rounded-lg xs:h-10"
@@ -1443,7 +1442,7 @@
                     <span
                       class="absolute -right-2.5 -top-2.5 flex h-5 w-5 cursor-pointer items-center justify-center rounded-full bg-tertiary-500 text-sm font-bold text-primary-light dark:text-primary-light"
                     >
-                      {% comment %} {{ cart.cart_len }} {% endcomment %}
+                      {{ cart.cart_len }}
                     </span>
                   </button>
                 </div>
@@ -1472,7 +1471,7 @@
           >
             <!-- Logo -->
             <div>
-              <a href="">
+              <a href="{% url "home:home" %}">
                 <img
                   alt=""
                   class="h-10 w-full rounded-lg"
@@ -1519,7 +1518,7 @@
               <li>
                 <a
                   class="flex items-center justify-between rounded-lg px-4 py-3 text-quaternary-700 hover:text-tertiary-500 dark:text-primary-light hover:dark:text-tertiary-400"
-                  href=""
+                  href="{% url "home:home" %}"
                 >
                   <span class="flex items-center gap-x-2">
                     <svg class="h-6 w-6">
@@ -1545,7 +1544,7 @@
               <li>
                 <a
                   class="flex items-center justify-between rounded-lg px-4 py-3 text-quaternary-700 hover:text-tertiary-500 dark:text-primary-light hover:dark:text-tertiary-400"
-                  href=""
+                  href="{% url "contactus:contactus" %}"
                 >
                   <span class="flex items-center gap-x-2">
                     <svg class="h-6 w-6">
@@ -1707,7 +1706,7 @@
               <li>
                 <a
                   class="flex items-center justify-between rounded-lg px-4 py-3 text-quaternary-700 hover:text-tertiary-500 dark:text-primary-light hover:dark:text-tertiary-400"
-                  href=""
+                  href="{% url "profiles:profile_dashboard" %}"
                 >
                   <span class="flex items-center gap-x-4">
                     <span class="min-w-fit">
@@ -1724,7 +1723,7 @@
               <li>
                 <a
                   class="flex items-center justify-between rounded-lg px-4 py-3 text-quaternary-700 hover:text-tertiary-500 dark:text-primary-light hover:dark:text-tertiary-400"
-                  href=""
+                  href="{% url "profiles:profile_orders" %}"
                 >
                   <span class="flex items-center gap-x-2">
                     <svg class="h-6 w-6">
@@ -1746,7 +1745,7 @@
               <li>
                 <a
                   class="flex items-center justify-between rounded-lg px-4 py-3 text-red-500 hover:bg-red-500/10 dark:text-red-400 hover:dark:bg-red-400/10"
-                  href=""
+                  href="{% url "account:user_logout" %}"
                 >
                   <div class="flex items-center gap-x-2">
                     <svg class="h-6 w-6">
@@ -1783,14 +1782,14 @@
               <span class="sr-only">Close menu</span>
             </button>
             <h5 class="text-lg text-quaternary-600 dark:text-quaternary-300">
-              {% comment %} سبد خرید <span class="text-sm">( {{ cart.cart_len }} )</span> {% endcomment %}
+              سبد خرید <span class="text-sm">( {{ cart.cart_len }} )</span>
             </h5>
           </div>
           <div class="h-full pb-[150px]">
             <ul
               class="main-scroll h-full space-y-2 divide-y divide-secondary-light overflow-y-auto p-4 dark:divide-primary-light/5"
             >
-              {% comment %} {% for item in cart %}
+              {% for item in cart %}
                 <li>
                   <div class="flex gap-x-2 py-5">
                     <!-- Product Image -->
@@ -1847,7 +1846,7 @@
                     </div>
                   </div>
                 </li>
-              {% endfor %} {% endcomment %}
+              {% endfor %}
             </ul>
           </div>
           <!-- Footer -->
@@ -1867,7 +1866,7 @@
             </div>
             <a
               class="btn-primary w-32 py-3 text-sm"
-              href="}"
+              href="{% url "cart:cart_detail" %}"
             >
               مشاهده سبد خرید
             </a>
@@ -2010,7 +2009,7 @@
                     <li>
                       <a
                         class="py-2 hover:text-tertiary-500 hover:dark:text-tertiary-400"
-                        href=""
+                        href="{% url "home:home" %}"
                       >
                         خانه
                       </a>
@@ -2037,7 +2036,7 @@
                     <li>
                       <a
                         class="py-2 hover:text-tertiary-500 hover:dark:text-tertiary-400"
-                        href=""
+                        href="{% url "profiles:profile_orders" %}"
                       >
                         پیگیری سفارشات
                       </a>
@@ -2045,7 +2044,7 @@
                     <li>
                       <a
                         class="py-2 hover:text-tertiary-500 hover:dark:text-tertiary-400"
-                        href=""
+                        href="{% url "contactus:contactus" %}"
                       >
                         تماس با ما
                       </a>

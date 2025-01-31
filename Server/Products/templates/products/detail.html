@@ -183,7 +183,7 @@
                     <div
                       class="mb-2 flex items-center gap-x-1 text-tertiary-500 dark:text-tertiary-400"
                     >
-                      {% comment %} <a href="#"> {{ product.brand }} </a> {% endcomment %}
+                      <a href="#">{{ product.category }}</a>
                       <svg class="h-5 w-5">
                         <use xlink:href="#chevron-left" />
                       </svg>
@@ -222,7 +222,7 @@
                         </div>
                       </div>
                       <!-- left side -->
-                      <form action="" method="post">
+                      <form action="{% url 'cart:add_to_cart' product.id %}" method="post">
                         {% csrf_token %}
                         <div class="col-span-1 flex flex-col">
                           <div class="flex-grow">
@@ -462,7 +462,7 @@
                   <div
                     class="flex items-center gap-x-1 text-sm font-light text-tertiary-500 dark:text-tertiary-400 md:text-base"
                   >
-                    {% comment %} <a href="#">{{ product.brand }}</a> {% endcomment %}
+                    <a href="#">{{ product.brand }}</a>
                     <svg class="h-5 w-5">
                       <use xlink:href="#chevron-left" />
                     </svg>
@@ -611,73 +611,9 @@
                 </div>
               </div>
             </div>
-            <div class="mb-6">
-              <div>
-                <!-- Section Header -->
-                <div class="mb-4 flex items-center justify-between">
-                  <h3
-                    class="font-medium text-quaternary-700 dark:text-primary-light md:text-lg lg:text-xl"
-                  >
-                    کالاهای مرتبط
-                  </h3>
-                </div>
-                <!-- Section Content -->
-                <div class="swiper product-slider p-px">
-                  <div class="swiper-wrapper">
-                    
-                    {% for product in suggested_products %}
-                      <div class="swiper-slide">
-                        <!-- Product Card -->
-                        <div
-                          class="border-gradient group relative rounded-base p-px before:absolute before:-inset-px before:h-[calc(100%+2px)] before:w-[calc(100%+2px)] before:rounded-base"
-                        >
-                          <div
-                            class="relative rounded-xl bg-primary-light p-2 shadow-base dark:bg-secondary-dark md:p-5"
-                          >
-                            <!-- image -->
-                            <div class="mb-2 md:mb-5" draggable="false">
-                              <a href="{% url "products:product_detail" product.slug %}">
-                                <img
-                                  alt=""
-                                  class="mx-auto w-32 rounded-lg md:w-auto"
-                                  src="{{ product.image.url }}"
-                                />
-                              </a>
-                            </div>
-                            <!-- title -->
-                            <div class="mb-2">
-                              <a
-                                class="line-clamp-2 h-10 text-sm text-quaternary-700 dark:text-primary-light md:h-12 md:text-base"
-                                href="{% url "products:product_detail" product.slug %}"
-                              >
-                              {{ product.name }}
-                              </a>
-                            </div>
-                            <!-- Prices -->
-                            <div class="flex flex-col">
-                              <div class="flex items-center justify-between">
-                                <!-- New price -->
-                                <div
-                                  class="text-sm font-bold text-tertiary-500 dark:text-tertiary-400 md:text-base"
-                                >
-                                  {{ product.str_price }}
-                                  <span class="text-xs font-light md:text-sm">تومان</span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    {% endfor %}
-                  </div>
-                  <div class="swiper-button-next"></div>
-                  <div class="swiper-button-prev"></div>
-                </div>
-              </div>
-            </div>
             <!-- description / specs / commment  -->
             <div
-              class="rounded-lg bg-primary-light p-4 shadow-base dark:bg-secondary-dark"
+              class="rounded-lg bg-primary-light p-4 shadow-base dark:bg-secondary-dark mb-6"
             >
               <div class="mb-6">
                 <ul
@@ -1090,6 +1026,70 @@
                       </svg>
                     </button>
                   </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div>
+                <!-- Section Header -->
+                <div class="mb-4 flex items-center justify-between">
+                  <h3
+                    class="font-medium text-quaternary-700 dark:text-primary-light md:text-lg lg:text-xl"
+                  >
+                    کالاهای مرتبط
+                  </h3>
+                </div>
+                <!-- Section Content -->
+                <div class="swiper product-slider p-px">
+                  <div class="swiper-wrapper">
+                    
+                    {% for product in suggested_products %}
+                      <div class="swiper-slide">
+                        <!-- Product Card -->
+                        <div
+                          class="border-gradient group relative rounded-base p-px before:absolute before:-inset-px before:h-[calc(100%+2px)] before:w-[calc(100%+2px)] before:rounded-base"
+                        >
+                          <div
+                            class="relative rounded-xl bg-primary-light p-2 shadow-base dark:bg-secondary-dark md:p-5"
+                          >
+                            <!-- image -->
+                            <div class="mb-2 md:mb-5" draggable="false">
+                              <a href="{% url "products:product_detail" product.slug  %}">
+                                <img
+                                  alt=""
+                                  class="mx-auto w-32 rounded-lg md:w-auto"
+                                  src="{{ product.image.url }}"
+                                />
+                              </a>
+                            </div>
+                            <!-- title -->
+                            <div class="mb-2">
+                              <a
+                                class="line-clamp-2 h-10 text-sm text-quaternary-700 dark:text-primary-light md:h-12 md:text-base"
+                                href="{% url "products:product_detail" product.slug %}"
+                              >
+                              {{ product.name }}
+                              </a>
+                            </div>
+                            <!-- Prices -->
+                            <div class="flex flex-col">
+                              <div class="flex items-center justify-between">
+                                <!-- New price -->
+                                <div
+                                  class="text-sm font-bold text-tertiary-500 dark:text-tertiary-400 md:text-base"
+                                >
+                                  {{ product.str_price }}
+                                  <span class="text-xs font-light md:text-sm">تومان</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    {% endfor %}
+                  </div>
+                  <div class="swiper-button-next"></div>
+                  <div class="swiper-button-prev"></div>
                 </div>
               </div>
             </div>
