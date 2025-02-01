@@ -56,7 +56,7 @@ class ZarinpalSendRequest(View):
         "MerchantID": settings.MERCHANT,
         "Amount": instance.total_price,
         "Description": description,
-        "Phone": instance.user.phone,
+        "email": instance.user.email,
         "CallbackURL": CallbackURL,
         }
         data = json.dumps(data)
@@ -92,7 +92,7 @@ class ZarinpalVerify(View):
         data = json.dumps(data)
         # set content length by data
         headers = {'content-type': 'application/json', 'content-length': str(len(data)) }
-        response = requests.post(ZP_API_VERIFY, data=data,headers=headers)
+        response = requests.post(ZP_API_VERIFY, data=data, headers=headers)
 
         if response.status_code == 200:
             response = response.json()

@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}پرداخت{% endblock %}
+
+
+{% block main %}
+  <div class="flex min-h-screen flex-col">
+      <main
+        class="flex-grow bg-secondary-light pb-14 pt-36 dark:bg-primary-dark xs:pt-36"
+      >
+        <div class="container">
+          <!-- breadCrumb -->
+          <div
+            class="col-span-12 mb-2 rounded-lg bg-primary-light dark:bg-secondary-dark lg:mb-6"
+          >
+            <ol class="grid grid-cols-3 overflow-hidden rounded-lg">
+              <li
+                class="flex flex-col items-center justify-center gap-2 p-4 text-xs text-tertiary-500 opacity-50 dark:text-tertiary-400 sm:text-sm md:text-base"
+              >
+                <svg class="h-6 w-6 md:h-8 md:w-8">
+                  <use xlink:href="#check" />
+                </svg>
+                <p class="leading-none">سبد خرید</p>
+              </li>
+              <li
+                class="flex flex-col items-center justify-center gap-2 p-4 text-xs text-tertiary-500 opacity-50 dark:text-tertiary-400 sm:text-sm md:text-base"
+              >
+                <svg class="h-6 w-6 md:h-8 md:w-8">
+                  <use xlink:href="#check" />
+                </svg>
+                <p class="leading-none">شیوه ارسال</p>
+              </li>
+              <li
+                class="flex flex-col items-center justify-center gap-2 bg-tertiary-500/10 p-4 text-xs text-tertiary-500 dark:bg-tertiary-400/10 dark:text-tertiary-400 sm:text-sm md:text-base"
+              >
+                <svg class="h-6 w-6 md:h-8 md:w-8">
+                  <use xlink:href="#credit" />
+                </svg>
+
+                <p class="leading-none">پرداخت</p>
+              </li>
+            </ol>
+          </div>
+
+          <div
+            class="mx-auto max-w-[450px] rounded-lg bg-primary-light p-5 dark:bg-secondary-dark"
+          >
+            <!-- Head -->
+            <h1
+              class="mb-8 text-center text-lg text-quaternary-700 dark:text-primary-light lg:text-xl"
+            >
+              جزئیات سفارش
+            </h1>
+
+            <div
+              class="mb-6 divide-secondary-light dark:divide-primary-light/5"
+            >
+              <!-- delivery price -->
+              <div class="flex items-center justify-between gap-x-2 py-6">
+                <div
+                  class="text-sm text-quaternary-600 dark:text-quaternary-300 lg:text-base"
+                >
+                  هزینه ارسال
+                </div>
+
+                <div
+                  class="text-sm text-sky-500 dark:text-sky-400 lg:text-base"
+                >
+                  <span class="font-bold"> رایگان </span>
+                </div>
+              </div>
+              <!-- delivery price -->
+
+              <!-- Order final price -->
+              <div class="flex items-center justify-between gap-x-2 py-6">
+                <div
+                  class="text-sm text-quaternary-600 dark:text-quaternary-300 lg:text-base"
+                >
+                  مبلغ قابل پرداخت
+                </div>
+
+                <div
+                  class="text-sm text-tertiary-500 dark:text-tertiary-400 lg:text-base"
+                >
+                  <span class="font-bold">{{ order.total_price }}</span>
+                  <span class="text-xs lg:text-sm">تومان</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <a href="{% url "payment:zarinpal_send_request" order.id %}" class="btn-primary py-4">
+                 پرداخت 
+              </a>
+            </div>
+          </div>
+        </div>
+      </main>
+  </div>
+{% endblock main %}
