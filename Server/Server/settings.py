@@ -149,3 +149,49 @@ AUTH_USER_MODEL = "Accounts.User"
 # SANDBOX MODE
 MERCHANT = "00000000-0000-0000-0000-000000000000"
 SANDBOX = True
+
+# Jazzmin
+JAZZMIN_SETTINGS = {
+    "site_title": "مدیریت سایت",  # Site title in Persian
+    "site_header": "مدیریت",  # Site header in Persian
+    "site_brand": "کوشان بگ",  # Site brand in Persian
+    "welcome_sign": "خوش آمدید",  # Welcome sign in Persian
+    "copyright": "کپی رایت",  # Copyright in Persian
+    "search_model": "auth.User",  # Model to search in admin
+    "show_docs": False,
+    
+    # Top menu settings
+    "topmenu_links": [
+        {"name": "داشبورد", "url": "admin:index", "permissions": ["auth.view_user"]},  # Dashboard in Persian
+        {"model": "auth.User"},
+        {"model": "auth.Group"},
+    ],
+
+    # Customizing the sidebar
+    "user_menu": "django.contrib.auth.models.User",
+    "show_sidebar": True,
+    "sidebar": True,
+    "sidebar_menu": [
+        {"name": "داشبورد", "url": "admin:index"},  # Dashboard in Persian
+        {"name": "وبلاگ‌ها", "url": "admin:Blogs_blog_changelist"},  # Blogs in Persian
+        {"name": "کاربران", "url": "admin:auth_user_changelist"},  # Users in Persian
+    ],
+
+    # Theme settings
+    "theme": "dark",  # Choose from 'default', 'dark', 'light', or custom themes
+    "color_scheme": "default",  # You can set a color scheme here
+
+    # Other settings
+    "show_ui_builder": True,  # Show the UI builder button
+    "show_settings": True,     # Show the settings button
+    "show_logout": True,       # Show the logout button
+
+    # RTL and Language settings
+    "default": {
+        "language": "fa",  # Set default language to Persian
+        "rtl": True,       # Enable RTL layout
+    },
+    
+    "custom_css": "css/admin.css",
+    "custom_js": "js/admin.js",
+}
