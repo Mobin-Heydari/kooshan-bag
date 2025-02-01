@@ -141,3 +141,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Auth User 
 AUTH_USER_MODEL = "Accounts.User"
+
+#   Zarinpal --api--merchand
+# SANDBOX MODE
+MERCHANT = "00000000-0000-0000-0000-000000000000"
+SANDBOX = True
