@@ -9,6 +9,8 @@ from .models import(
     Comment
 )
 from .forms import CommentForm
+from Cart.cart import Cart
+from ContactUs.models import Contact
     
     
 class ProductDetail(View):
@@ -23,6 +25,8 @@ class ProductDetail(View):
         
         comments = Comment.objects.filter(product=product)
         
+        cart = Cart(request)
+        
         form = CommentForm
         
         page_number = request.GET.get('page')
@@ -31,10 +35,11 @@ class ProductDetail(View):
         
         queryset = paginator.get_page(page_number)
         
+        contacts = Contact.objects.all()
+        
         suggested_products = Product.objects.filter(
             primery_category = product.primery_category,
             category = product.category
-            
         ).order_by('-created')[:6]
         
         
@@ -45,6 +50,8 @@ class ProductDetail(View):
             'comments' : queryset,
             'form' : form,
             'suggested_products' : suggested_products,
+            'contacts' : contacts,
+            'cart' : cart
         })
     
     
@@ -56,6 +63,7 @@ class ProductDetail(View):
             cd = form.cleaned_data
             product = get_object_or_404(
                 Product,
+                available=True,
                 slug=slug
             )
             
@@ -81,9 +89,9 @@ class ProductListFilter(TemplateView):
         request = self.request
         primery_category = request.GET.get('primery_category')
         color = request.GET.get('color')
-        min_price = request.GET.get('min_price')
-        max_price = request.GET.get('max_price')
-
+        
+        contacts = Contact.objects.all()
+        cart = Cart(request)
         categories = Category.objects.all()
         primery_categories = PrimeryCategory.objects.all()
         colors = Color.objects.all()
@@ -97,10 +105,6 @@ class ProductListFilter(TemplateView):
             print(color)
             queryset = queryset.filter(colors=color).distinct()
         
-        if min_price and max_price:
-            print(min_price, max_price)
-            queryset = queryset.filter(price__lte=max_price, price__gte=min_price).distinct()
-        
         page_number = request.GET.get('page')
         paginator = Paginator(queryset, 8)
         queryset = paginator.get_page(page_number)
@@ -113,8 +117,8 @@ class ProductListFilter(TemplateView):
             'primery_categories' : primery_categories,
             'colors' : colors,
             'color' : color,
-            'min_price' : min_price,
-            'max_price' : max_price,
             'primery_category' : primery_category,
+            'contacts' : contacts,
+            'cart' : cart
         }
         return context
