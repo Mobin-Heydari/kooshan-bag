@@ -23,24 +23,23 @@
           <h1 class="mb-10 text-center text-lg text-quaternary-700 dark:text-primary-light">
            ورود
           </h1>
-          <form  method="post">
+          <form method="post">
             {% csrf_token %}
             <div class="mb-4 space-y-4">
                 <label
-                  for="username"
+                  for="email"
                   class="relative block rounded-lg border border-secondary-light shadow-base dark:border-primary-light/5"
                 >
                   {{form.email}}
                   <span
                     class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-primary-light px-2 py-0.5 text-sm text-quaternary-600 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-sm dark:bg-secondary-dark dark:text-quaternary-300"
                   >
-                  ایمیل
+                  ایمیل  
                   </span>
                 </label>
-    
                 <label
-                  for="username"
-                  class="relative block rounded-lg border border-secondary-light shadow-base dark:border-primary-light/5"
+                  for="password"
+                  class="relative block rounded-lg border border-secondary-light shadow-base dark:border-primary-light/5 mb-10"
                 >
                   {{form.password}}
                   <span
@@ -49,9 +48,9 @@
                     رمز عبور
                   </span>
                 </label>
-                <p class="h-5 text-sm text-red-500 dark:text-red-400">
-                   {% comment %} شماره موبایل و یا ایمیل نامعتبر است  {% endcomment %}
-                </p>
+                <span class="h-5 text-sm text-red-500 dark:text-red-400">
+                    {{ form.email.errors }}
+                </span>
               </div>
               <div class="mb-5">
                 <button class="btn-primary w-full py-3" type="submit">ورود</button>
@@ -60,7 +59,7 @@
               <p
                 class="text-center text-sm text-quaternary-600 dark:text-quaternary-300"
               >
-              اگر حساب کاربری ندارید لطفا احرازحویت کنید!
+              اگر حساب کاربری ندارید لطفا ثبت نام کنید و به ما بپیوندید!
               </p>
               <br>
               <div class="mb-5">

@@ -28,7 +28,7 @@
             {% csrf_token %}
             <div class="mb-4 space-y-4">
                 <label
-                  for="username"
+                  for="email"
                   class="relative block rounded-lg border border-secondary-light shadow-base dark:border-primary-light/5"
                 >
                   {{form.email}}
@@ -40,7 +40,7 @@
                 </label>
     
                 <label
-                  for="username"
+                  for="password"
                   class="relative block rounded-lg border border-secondary-light shadow-base dark:border-primary-light/5"
                 >
                   {{form.password}}
@@ -52,7 +52,7 @@
                 </label>
 
                 <label
-                  for="username"
+                  for="password_conf"
                   class="relative block rounded-lg border border-secondary-light shadow-base dark:border-primary-light/5"
                 >
                   {{form.password_conf}}
@@ -64,7 +64,7 @@
                 </label>
 
                 <label
-                  for="username"
+                  for="f_name"
                   class="relative block rounded-lg border border-secondary-light shadow-base dark:border-primary-light/5"
                 >
                   {{form.f_name}}
@@ -75,7 +75,7 @@
                   </span>
                 </label>
                 <label
-                  for="username"
+                  for="l_name"
                   class="relative block rounded-lg border border-secondary-light shadow-base dark:border-primary-light/5"
                 >
                   {{form.l_name}}
@@ -85,9 +85,9 @@
                      نام خانوادگی
                   </span>
                 </label>
-                <p class="h-5 text-sm text-red-500 dark:text-red-400">
-                  <!-- شماره موبایل و یا ایمیل نامعتبر است -->
-                </p>
+                <span class="h-5 text-sm text-red-500 dark:text-red-400">
+                  {{ form.password.errors }}
+                </span>
               </div>
               <div class="mb-5">
                 <button class="btn-primary w-full py-3" type="submit">ثبت نام</button>
