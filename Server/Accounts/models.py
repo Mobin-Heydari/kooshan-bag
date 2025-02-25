@@ -97,13 +97,6 @@ class OneTimePassword(models.Model):
         default=OtpStatus.ACTIVE  # Default status is active
     )
 
-    # User who requested the OTP
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='one_time_passwords',
-    )
-
     # Field to store a unique token for the OTP
     token = models.UUIDField(max_length=250, unique=True, default=uuid.uuid4)
     

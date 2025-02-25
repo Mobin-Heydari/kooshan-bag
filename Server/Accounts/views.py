@@ -1,10 +1,13 @@
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect, HttpResponse
 from django.utils.crypto import get_random_string
+from django.core.mail import send_mail
 from django.urls import reverse
 from django.views.generic import View
-from .models import User
+from .models import User, OneTimePassword
 from Products.models import Category, PrimeryCategory
+
+import uuid
 
 
 from .forms import (
@@ -84,15 +87,28 @@ class UserRegister(View):
                 if 8 <= len(cd['password_conf']) <= 16:
                     if not User.objects.filter(email=cd['email']).exists():
 
-                        user = User.objects.create(
-                            email=cd['email'],
-                            f_name=cd['f_name'],
-                            l_name=cd['l_name']
-                        ) 
-                        user.set_password(cd['password'])
-                        user.save()
-                        login(request, user)
-                        return redirect("/")
+                        # Generate a random 6-digit code for the OTP
+                        code = randint(100000, 999999)
+
+                        token = uuid.uuid4()
+
+                        # Create a new OneTimePassword instance with the generated code
+                        otp = OneTimePassword.objects.create(
+                            # Set the code for the OTP
+                            code=code,
+                            # Generate a UUID for the token
+                            token=token
+                        )
+
+                        # Save the new OneTimePassword instance to the database
+                        otp.save()
+
+                        otp.get_expiration()  # Get the expiration time of the OTP
+
+                        print(otp.code)
+                                
+                        # return redirect(reverse('accounts:check_otp') + f'?token={otp.token}')
+                        return HttpResponse(f'{code}, {token}')
                     else:
                         form.add_error('password', 'ایمل وارد شده قبلا استفاده شده')
                 else:
