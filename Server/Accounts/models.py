@@ -38,10 +38,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         unique=True,
     )
     
-    f_name = models.CharField(verbose_name="نام",
-                              max_length=200, null=True)
-    l_name = models.CharField(verbose_name="نام خانوادگی",
-                              max_length=200, null=True)
+    f_name = models.CharField(verbose_name="نام", max_length=200, null=True)
+    l_name = models.CharField(verbose_name="نام خانوادگی", max_length=200, null=True)
     
     is_active = models.BooleanField(default=True,
                                     verbose_name="فعال")
@@ -102,7 +100,15 @@ class OneTimePassword(models.Model):
     
     code = models.CharField(max_length=6)  # Field to store the OTP code
 
-     # Field to store the expiration time of the OTP
+    email = models.EmailField(verbose_name="ایمیل", max_length=255)
+    
+    f_name = models.CharField(verbose_name="نام", max_length=200)
+    l_name = models.CharField(verbose_name="نام خانوادگی", max_length=200)
+
+    password = models.CharField(verbose_name="رمز عبور", max_length=16)
+
+
+    # Field to store the expiration time of the OTP
     expiration = models.DateTimeField(blank=True, null=True)
     
     # Field to store the creation time of the OTP record

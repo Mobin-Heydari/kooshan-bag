@@ -98,3 +98,12 @@ class RegisterForm(forms.Form):
             'placeholder' : 'نام خانوادگی'
         }
     ))
+
+class OtpForm(forms.Form):
+    
+    otp = forms.CharField(widget=forms.TextInput(
+        attrs={
+            'class' : 'peer w-full rounded-lg border-none bg-transparent p-4 text-left text-quaternary-700 placeholder-transparent focus:outline-none focus:ring-0 dark:text-primary-light',
+            'placeholder' : 'رمز عبور'
+        }
+    ))

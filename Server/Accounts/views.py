@@ -1,7 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render, redirect, HttpResponse
-from django.utils.crypto import get_random_string
-from django.core.mail import send_mail
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views.generic import View
 from .models import User, OneTimePassword
@@ -9,10 +7,10 @@ from Products.models import Category, PrimeryCategory
 
 import uuid
 
-
 from .forms import (
     LoginForm,
-    RegisterForm
+    RegisterForm,
+    OtpForm
 )
 from random import randint
 
@@ -97,7 +95,11 @@ class UserRegister(View):
                             # Set the code for the OTP
                             code=code,
                             # Generate a UUID for the token
-                            token=token
+                            token=token,
+                            email=cd['email'],
+                            password=cd['password'],
+                            f_name=cd['f_name'],
+                            l_name=cd['l_name']
                         )
 
                         # Save the new OneTimePassword instance to the database
@@ -107,8 +109,7 @@ class UserRegister(View):
 
                         print(otp.code)
                                 
-                        # return redirect(reverse('accounts:check_otp') + f'?token={otp.token}')
-                        return HttpResponse(f'{code}, {token}')
+                        return redirect(reverse('Accounts:check_otp') + f'?token={otp.token}')
                     else:
                         form.add_error('password', 'ایمل وارد شده قبلا استفاده شده')
                 else:
@@ -118,6 +119,70 @@ class UserRegister(View):
 
         return render(request, 'account/register.html', {'form': form})
 
+
+class CheckOtp(View):
+    
+    def get(self, request):
+        
+        if request.user.is_authenticated == False:
+            form = OtpForm()
+        
+            return render(
+                request, 'account/check_otp.html', {
+                    'form' : form
+                }
+            )
+        else:
+            return redirect('home:home')
+        
+    
+    def post(self, request):
+        
+        if request.user.is_authenticated == False:
+            
+            form = OtpForm(request.POST)
+
+            token = request.GET.get('token')
+            
+            otp = get_object_or_404(OneTimePassword, token=token)
+            
+            if form.is_valid():
+                
+                cd = form.cleaned_data
+                
+                if int(cd['otp']) == int(otp.code):
+
+                    otp.status_validation()
+
+                    if otp.status == 'ACT':
+                    
+                        user = User.objects.create_user(
+                            f_name = otp.f_name,
+                            l_name = otp.l_name,
+                            password = otp.password,
+                            email = otp.email,
+                        )
+                        
+                        user.save()
+                        
+                        otp.delete()
+                        
+                        login(request, user)
+                        
+                        return redirect('/')
+                    else:
+                        form.add_error('otp', 'کد احرازحویت شما منقضی شده است لطفا دوباره تلاش کنید!')
+                else:
+                    form.add_error('otp', 'کد وارد شده معتبر نیست!')
+            else:
+                form.add_error('otp', 'کد وارد شده معتبر نیست!')
+        else:
+            return redirect('/')
+        return render(
+            request, 'account/check_otp.html', {
+                'form' : form,
+            }
+        )
 
 
 class UserLogout(View):
