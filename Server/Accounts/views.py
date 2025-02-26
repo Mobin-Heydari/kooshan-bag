@@ -11,7 +11,8 @@ from .forms import (
     LoginForm,
     RegisterForm,
     OtpForm,
-    ResetPasswordForm
+    ResetPasswordForm,
+    ChangePasswordForm
 )
 from random import randint
 
@@ -272,3 +273,54 @@ class ValidatePasswordOtp(View):
                 return render(request, 'account/check_otp.html', {'form': form})
         else:
             return render(request, 'account/check_otp.html', {'form': form})
+        
+
+
+class ChangePassword(View):
+    
+    def get(self, request):
+        
+        form = ChangePasswordForm()
+        
+        return render(
+            request, 'account/change_password.html', {
+                'form' : form
+            }
+        )
+        
+    def post(self, request):
+        
+        form = ChangePasswordForm(request.POST)
+        
+        token = request.GET.get('token')
+        
+        password_otp = get_object_or_404(ChangePasswordOTP, token = token)
+        
+        if form.is_valid():
+            
+            cd = form.cleaned_data
+            
+            if len(cd['password_conf']) <= 8 and len(cd['password_conf']) >= 8:
+            
+                if cd['password'] == cd['password_conf']:
+                    
+                    user = User.objects.get(email=password_otp.email)
+                
+                    if user is not None:
+                        
+                        user.set_password(cd['password'])
+                        
+                        user.save()
+                        
+                        password_otp.delete()
+                        
+                        return redirect('home:home')
+                    else:
+                        return redirect('Accounts:reset_password')
+                else:
+                    form.add_error('password', 'پسورد های وارد شده باهم برابر نیستند!')
+            else:
+                form.add_error('password', 'اندازه رمزعبور باید بین 8 تا 16 کاراکتر باشد!')
+        else:
+            form.add_error('password', 'اطلاعات وارد شده معتبر نیستند!')
+        return render(request, 'account/change_password.html', {'form': form})
