@@ -227,3 +227,36 @@ class ResetPassword(View):
         else:
             return render(request, 'account/reset_password.html', {'form': form})
 
+class ResetPasswordOtp(View):
+    
+    def get(self, request):
+        
+        token = request.GET.get('token')
+        
+        try:
+            otp = ResetPasswordOtp.objects.get(token=token)
+            
+            return render(
+                request, 'authentication/validate_otp.html', {
+                    
+                }
+            )
+        except otp.DoesNotExist:
+            return redirect('authentication:reset_password')
+        
+    
+    def post(self, request):
+        
+        token = request.GET.get('token')
+        
+        try:
+            otp = ResetPasswordOtp.objects.get(token=token)
+            
+            code = request.POST.get('code')
+            
+            if int(code) == int(otp.otp_code):
+                return redirect(reverse('authentication:change_password')+ f'?token={token}')
+            else:
+                return redirect('authentication:reset_password')
+        except otp.DoesNotExist:
+            return redirect('authentication:reset_password')
