@@ -14,4 +14,5 @@ urlpatterns = [
     path('check-otp/', views.CheckOtp.as_view(), name='check_otp'),
 
     path('reset-password/', views.ResetPassword.as_view(), name='reset_password'),
+    path('validate-password-otp/', views.ValidatePasswordOtp.as_view(), name='validate_password_otp'),
 ]

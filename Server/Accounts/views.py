@@ -218,45 +218,57 @@ class ResetPassword(View):
                     code=code,
                     token=token
                 )
+                otp.get_expiration()
                 otp.save()
                 print(code)
-                return redirect(reverse('Accounts:validate_otp') + f'?token={token}')
+                return redirect(reverse('Accounts:validate_password_otp') + f'?token={token}')
             else:
                 form.add_error('email', 'User with this email does not exist')
                 return render(request, 'account/reset_password.html', {'form': form})
         else:
             return render(request, 'account/reset_password.html', {'form': form})
 
-class ResetPasswordOtp(View):
+
+
+class ValidatePasswordOtp(View):
     
     def get(self, request):
         
         token = request.GET.get('token')
+        form = OtpForm()
         
         try:
-            otp = ResetPasswordOtp.objects.get(token=token)
+            otp = ChangePasswordOTP.objects.get(token=token)
             
-            return render(
-                request, 'authentication/validate_otp.html', {
-                    
-                }
-            )
+            return render(request, 'account/check_otp.html', {'form': form})
         except otp.DoesNotExist:
-            return redirect('authentication:reset_password')
+            return redirect('Accounts:reset_password')
         
     
     def post(self, request):
+
+        form = OtpForm(request.POST)
         
         token = request.GET.get('token')
         
         try:
-            otp = ResetPasswordOtp.objects.get(token=token)
-            
-            code = request.POST.get('code')
-            
-            if int(code) == int(otp.otp_code):
-                return redirect(reverse('authentication:change_password')+ f'?token={token}')
-            else:
-                return redirect('authentication:reset_password')
+            otp = ChangePasswordOTP.objects.get(token=token)
         except otp.DoesNotExist:
-            return redirect('authentication:reset_password')
+            return redirect('Accounts:reset_password')
+        
+        if form.is_valid():
+            code = form.cleaned_data['otp']
+
+            otp.status_validation()
+
+            if int(code) == int(otp.code):
+                if otp.status == 'ACT':
+                    return redirect(reverse('Accounts:change_password')+ f'?token={token}')
+                else:
+                    form.add_error('otp', 'کد یکبار مصرف شما منقضی شده است!')
+                    return render(request, 'account/check_otp.html', {'form': form})
+            else:
+                form.add_error('otp', 'کد وارد شده صحیح نیست!')
+                return render(request, 'account/check_otp.html', {'form': form})
+        else:
+            return render(request, 'account/check_otp.html', {'form': form})
