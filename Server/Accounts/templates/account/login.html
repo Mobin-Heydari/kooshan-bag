@@ -62,8 +62,9 @@
               اگر حساب کاربری ندارید لطفا ثبت نام کنید و به ما بپیوندید!
               </p>
               <br>
-              <div class="mb-5">
-                <a class="btn-primary w-full py-3" href="{% url "account:user_register" %}">ثبت نام</a>
+              <div class="grid grid-cols-6 grid-rows gap-4">
+                <a class="btn-primary p-3 m-5" href="{% url "account:user_register" %}">ثبت نام</a>
+                <a class="btn-secondary p-3 m-5" href="{% url "account:reset_password" %}">بازیابی رمزعبور</a>
               </div>
             </div>
           </form>
