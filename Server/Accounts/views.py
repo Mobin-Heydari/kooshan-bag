@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views.generic import View
-from .models import User, OneTimePassword
+from .models import User, OneTimePassword, ChangePasswordOTP
 from Products.models import Category, PrimeryCategory
 
 import uuid
@@ -10,7 +10,8 @@ import uuid
 from .forms import (
     LoginForm,
     RegisterForm,
-    OtpForm
+    OtpForm,
+    ResetPasswordForm
 )
 from random import randint
 
@@ -189,3 +190,40 @@ class UserLogout(View):
     def get(self, request):
         logout(request)
         return redirect('/')
+    
+
+
+class ResetPassword(View):
+
+    def get(self, request):
+        form = ResetPasswordForm()
+        return render(request, 'account/reset_password.html', {'form': form})
+        
+    def post(self, request):
+        form = ResetPasswordForm(request.POST)
+        
+        if form.is_valid():
+            cd = form.cleaned_data
+            
+            email = cd['email']
+    
+            user_email_validation = User.objects.filter(email=email).exists()
+            
+            if user_email_validation:
+                code = randint(100000, 999999)
+                token = uuid.uuid4()
+                
+                otp = ChangePasswordOTP.objects.create(
+                    email=email,
+                    code=code,
+                    token=token
+                )
+                otp.save()
+                print(code)
+                return redirect(reverse('Accounts:validate_otp') + f'?token={token}')
+            else:
+                form.add_error('email', 'User with this email does not exist')
+                return render(request, 'account/reset_password.html', {'form': form})
+        else:
+            return render(request, 'account/reset_password.html', {'form': form})
+
